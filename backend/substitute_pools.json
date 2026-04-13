@@ -1,0 +1,125 @@
+{
+  "_schema_version": "1.0",
+  "_schema_note": "Pools keyed by inferred recipe role. Candidate strings are normalized through V2 before scoring.",
+
+  "thickener": [
+    "cornstarch",
+    "potato starch",
+    "arrowroot",
+    "tapioca starch",
+    "flour",
+    "milk",
+    "butter"
+  ],
+
+  "structure": [
+    "bread flour",
+    "whole wheat flour",
+    "gluten free flour blend",
+    "oat flour",
+    "flour",
+    "cornstarch"
+  ],
+
+  "aerated_base": [
+    "whipped coconut cream",
+    "whipped topping",
+    "greek yogurt",
+    "mascarpone",
+    "milk"
+  ],
+
+  "topping": [
+    "walnut",
+    "pecans",
+    "pumpkin seeds",
+    "granola",
+    "almond",
+    "broth"
+  ],
+
+  "garnish": [
+    "walnut",
+    "pecans",
+    "pumpkin seeds",
+    "granola",
+    "almond"
+  ],
+
+  "texture_contrast": [
+    "walnut",
+    "pecans",
+    "pumpkin seeds",
+    "granola",
+    "almond"
+  ],
+
+  "flavor_base": [
+    "tomato paste",
+    "crushed tomato reduction",
+    "tomato sauce reduction",
+    "roasted red pepper paste",
+    "onion",
+    "garlic"
+  ],
+
+  "sauce_base": [
+    "milk",
+    "broth",
+    "cream",
+    "yogurt",
+    "butter"
+  ],
+
+  "body_provider": [
+    "yogurt",
+    "cream",
+    "milk",
+    "cheese",
+    "egg"
+  ],
+
+  "protein_base": [
+    "beef",
+    "pork",
+    "tofu",
+    "chicken",
+    "turkey",
+    "shrimp",
+    "mushrooms",
+    "chickpeas",
+    "egg"
+  ],
+
+  "main_component": [
+    "beef",
+    "pork",
+    "tofu",
+    "chicken",
+    "turkey",
+    "shrimp",
+    "mushrooms",
+    "chickpeas",
+    "egg"
+  ],
+
+  "sweetener": [
+    "sugar",
+    "honey",
+    "maple syrup"
+  ],
+
+  "acidity_provider": [
+    "lemon juice",
+    "vinegar",
+    "yogurt"
+  ],
+
+  "moisture_provider": [
+    "water",
+    "broth",
+    "milk",
+    "yogurt",
+    "olive oil"
+  ]
+}

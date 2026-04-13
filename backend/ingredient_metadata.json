@@ -1,0 +1,2205 @@
+{
+  "_schema_version": "2.1",
+  "_schema_note": "Top 100 frequent ingredients from data/western_5000.json parsed_ingredients, pre-seeded for faster metadata lookup.",
+  "olive oil": {
+    "parent": "oil",
+    "category": "fat",
+    "primary_function": "fat_source",
+    "possible_functions": [
+      "fat_source",
+      "flavor_base",
+      "coating"
+    ],
+    "properties": {
+      "fat": "high",
+      "moisture": "low",
+      "sweetness": "low",
+      "acidity": "low",
+      "saltiness": "low"
+    },
+    "texture": "liquid",
+    "flavor_strength": "medium",
+    "special_capabilities": [
+      "emulsifier"
+    ],
+    "direct_substitutes": [
+      "vegetable oil",
+      "canola oil"
+    ],
+    "source": "manual"
+  },
+  "garlic": {
+    "parent": null,
+    "category": "aromatic",
+    "primary_function": "aromatic",
+    "possible_functions": [
+      "aromatic",
+      "seasoning",
+      "flavor_base"
+    ],
+    "properties": {
+      "fat": "low",
+      "moisture": "medium",
+      "sweetness": "low",
+      "acidity": "low",
+      "saltiness": "low"
+    },
+    "texture": "solid",
+    "flavor_strength": "strong",
+    "special_capabilities": [
+      "caramelizable"
+    ],
+    "direct_substitutes": [
+      "garlic powder",
+      "shallot"
+    ],
+    "source": "manual"
+  },
+  "salt": {
+    "parent": null,
+    "category": "seasoning",
+    "primary_function": "seasoning",
+    "possible_functions": [
+      "seasoning",
+      "savory_component"
+    ],
+    "properties": {
+      "fat": "low",
+      "moisture": "low",
+      "sweetness": "low",
+      "acidity": "low",
+      "saltiness": "high"
+    },
+    "texture": "powder",
+    "flavor_strength": "strong",
+    "special_capabilities": [],
+    "direct_substitutes": [
+      "kosher salt",
+      "sea salt"
+    ],
+    "source": "manual"
+  },
+  "unsalted butter": {
+    "parent": null,
+    "category": "dairy",
+    "primary_function": "fat_source",
+    "possible_functions": [
+      "fat_source",
+      "flavor_base",
+      "coating"
+    ],
+    "properties": {
+      "fat": "high",
+      "moisture": "low",
+      "sweetness": "low",
+      "acidity": "low",
+      "saltiness": "low"
+    },
+    "texture": "solid",
+    "flavor_strength": "medium",
+    "special_capabilities": [
+      "emulsifier"
+    ],
+    "direct_substitutes": [],
+    "source": "manual"
+  },
+  "sugar": {
+    "parent": null,
+    "category": "sweetener",
+    "primary_function": "sweetener",
+    "possible_functions": [
+      "sweetener",
+      "structure",
+      "seasoning"
+    ],
+    "properties": {
+      "fat": "low",
+      "moisture": "low",
+      "sweetness": "high",
+      "acidity": "low",
+      "saltiness": "low"
+    },
+    "texture": "powder",
+    "flavor_strength": "medium",
+    "special_capabilities": [
+      "caramelizable"
+    ],
+    "direct_substitutes": [
+      "honey",
+      "maple syrup"
+    ],
+    "source": "manual"
+  },
+  "black pepper": {
+    "parent": null,
+    "category": "seasoning",
+    "primary_function": "seasoning",
+    "possible_functions": [
+      "seasoning",
+      "savory_component"
+    ],
+    "properties": {
+      "fat": "low",
+      "moisture": "low",
+      "sweetness": "low",
+      "acidity": "low",
+      "saltiness": "low"
+    },
+    "texture": "powder",
+    "flavor_strength": "strong",
+    "special_capabilities": [],
+    "direct_substitutes": [],
+    "source": "manual"
+  },
+  "all purpose flour": {
+    "parent": "flour",
+    "category": "starch",
+    "primary_function": "structure",
+    "possible_functions": [
+      "structure",
+      "binder",
+      "starch_base"
+    ],
+    "properties": {
+      "fat": "low",
+      "moisture": "low",
+      "sweetness": "low",
+      "acidity": "low",
+      "saltiness": "low"
+    },
+    "texture": "powder",
+    "flavor_strength": "mild",
+    "special_capabilities": [],
+    "direct_substitutes": [
+      "bread flour",
+      "whole wheat flour"
+    ],
+    "source": "manual"
+  },
+  "lemon juice": {
+    "parent": "lemon",
+    "category": "liquid",
+    "primary_function": "acid_source",
+    "possible_functions": [
+      "acid_source",
+      "seasoning"
+    ],
+    "properties": {
+      "fat": "low",
+      "moisture": "high",
+      "sweetness": "low",
+      "acidity": "high",
+      "saltiness": "low"
+    },
+    "texture": "liquid",
+    "flavor_strength": "medium",
+    "special_capabilities": [],
+    "direct_substitutes": [
+      "lime juice",
+      "white wine vinegar"
+    ],
+    "source": "manual"
+  },
+  "water": {
+    "parent": null,
+    "category": "liquid",
+    "primary_function": "liquid_base",
+    "possible_functions": [
+      "liquid_base",
+      "body_provider",
+      "sauce_base"
+    ],
+    "properties": {
+      "fat": "low",
+      "moisture": "high",
+      "sweetness": "low",
+      "acidity": "low",
+      "saltiness": "low"
+    },
+    "texture": "liquid",
+    "flavor_strength": "mild",
+    "special_capabilities": [],
+    "direct_substitutes": [
+      "broth"
+    ],
+    "source": "manual"
+  },
+  "eggs": {
+    "parent": "egg",
+    "category": "binder",
+    "primary_function": "binder",
+    "possible_functions": [
+      "binder",
+      "structure",
+      "body_provider"
+    ],
+    "properties": {
+      "fat": "medium",
+      "moisture": "medium",
+      "sweetness": "low",
+      "acidity": "low",
+      "saltiness": "low"
+    },
+    "texture": "soft",
+    "flavor_strength": "mild",
+    "special_capabilities": [
+      "emulsifier",
+      "whippable"
+    ],
+    "direct_substitutes": [
+      "egg",
+      "flax egg"
+    ],
+    "source": "manual"
+  },
+  "onion": {
+    "parent": null,
+    "category": "vegetable",
+    "primary_function": "aromatic",
+    "possible_functions": [
+      "aromatic",
+      "flavor_base",
+      "bulk_vegetable"
+    ],
+    "properties": {
+      "fat": "low",
+      "moisture": "high",
+      "sweetness": "medium",
+      "acidity": "low",
+      "saltiness": "low"
+    },
+    "texture": "solid",
+    "flavor_strength": "strong",
+    "special_capabilities": [
+      "caramelizable"
+    ],
+    "direct_substitutes": [
+      "shallot",
+      "leek"
+    ],
+    "source": "manual"
+  },
+  "kosher salt": {
+    "parent": null,
+    "category": "seasoning",
+    "primary_function": "seasoning",
+    "possible_functions": [
+      "seasoning",
+      "savory_component"
+    ],
+    "properties": {
+      "fat": "low",
+      "moisture": "low",
+      "sweetness": "low",
+      "acidity": "low",
+      "saltiness": "high"
+    },
+    "texture": "powder",
+    "flavor_strength": "strong",
+    "special_capabilities": [],
+    "direct_substitutes": [],
+    "source": "manual"
+  },
+  "butter": {
+    "parent": null,
+    "category": "dairy",
+    "primary_function": "fat_source",
+    "possible_functions": [
+      "fat_source",
+      "body_provider",
+      "sauce_base"
+    ],
+    "properties": {
+      "fat": "high",
+      "moisture": "low",
+      "sweetness": "low",
+      "acidity": "low",
+      "saltiness": "low"
+    },
+    "texture": "solid",
+    "flavor_strength": "medium",
+    "special_capabilities": [
+      "meltable",
+      "emulsifier"
+    ],
+    "direct_substitutes": [
+      "olive oil",
+      "ghee"
+    ],
+    "source": "manual"
+  },
+  "vegetable oil": {
+    "parent": null,
+    "category": "fat",
+    "primary_function": "fat_source",
+    "possible_functions": [
+      "fat_source",
+      "flavor_base",
+      "coating"
+    ],
+    "properties": {
+      "fat": "high",
+      "moisture": "low",
+      "sweetness": "low",
+      "acidity": "low",
+      "saltiness": "low"
+    },
+    "texture": "liquid",
+    "flavor_strength": "medium",
+    "special_capabilities": [
+      "emulsifier"
+    ],
+    "direct_substitutes": [],
+    "source": "manual"
+  },
+  "heavy cream": {
+    "parent": null,
+    "category": "dairy",
+    "primary_function": "body_provider",
+    "possible_functions": [
+      "body_provider",
+      "sauce_base"
+    ],
+    "properties": {
+      "fat": "medium",
+      "moisture": "medium",
+      "sweetness": "low",
+      "acidity": "low",
+      "saltiness": "low"
+    },
+    "texture": "creamy",
+    "flavor_strength": "mild",
+    "special_capabilities": [
+      "emulsifier"
+    ],
+    "direct_substitutes": [],
+    "source": "manual"
+  },
+  "cinnamon": {
+    "parent": null,
+    "category": "seasoning",
+    "primary_function": "seasoning",
+    "possible_functions": [
+      "seasoning",
+      "savory_component"
+    ],
+    "properties": {
+      "fat": "low",
+      "moisture": "low",
+      "sweetness": "low",
+      "acidity": "low",
+      "saltiness": "low"
+    },
+    "texture": "powder",
+    "flavor_strength": "strong",
+    "special_capabilities": [],
+    "direct_substitutes": [],
+    "source": "manual"
+  },
+  "dry white wine": {
+    "parent": null,
+    "category": "liquid",
+    "primary_function": "liquid_base",
+    "possible_functions": [
+      "liquid_base",
+      "sauce_base",
+      "body_provider"
+    ],
+    "properties": {
+      "fat": "low",
+      "moisture": "high",
+      "sweetness": "low",
+      "acidity": "low",
+      "saltiness": "low"
+    },
+    "texture": "liquid",
+    "flavor_strength": "mild",
+    "special_capabilities": [],
+    "direct_substitutes": [],
+    "source": "manual"
+  },
+  "thyme": {
+    "parent": null,
+    "category": "seasoning",
+    "primary_function": "seasoning",
+    "possible_functions": [
+      "seasoning",
+      "savory_component"
+    ],
+    "properties": {
+      "fat": "low",
+      "moisture": "medium",
+      "sweetness": "low",
+      "acidity": "low",
+      "saltiness": "low"
+    },
+    "texture": "solid",
+    "flavor_strength": "strong",
+    "special_capabilities": [],
+    "direct_substitutes": [],
+    "source": "manual"
+  },
+  "lime juice": {
+    "parent": null,
+    "category": "liquid",
+    "primary_function": "acid_source",
+    "possible_functions": [
+      "acid_source",
+      "seasoning"
+    ],
+    "properties": {
+      "fat": "low",
+      "moisture": "high",
+      "sweetness": "low",
+      "acidity": "high",
+      "saltiness": "low"
+    },
+    "texture": "liquid",
+    "flavor_strength": "strong",
+    "special_capabilities": [],
+    "direct_substitutes": [],
+    "source": "manual"
+  },
+  "vanilla extract": {
+    "parent": null,
+    "category": "seasoning",
+    "primary_function": "seasoning",
+    "possible_functions": [
+      "seasoning",
+      "savory_component"
+    ],
+    "properties": {
+      "fat": "low",
+      "moisture": "medium",
+      "sweetness": "low",
+      "acidity": "low",
+      "saltiness": "low"
+    },
+    "texture": "solid",
+    "flavor_strength": "strong",
+    "special_capabilities": [],
+    "direct_substitutes": [],
+    "source": "manual"
+  },
+  "whipping cream": {
+    "parent": null,
+    "category": "dairy",
+    "primary_function": "body_provider",
+    "possible_functions": [
+      "body_provider",
+      "sauce_base"
+    ],
+    "properties": {
+      "fat": "medium",
+      "moisture": "medium",
+      "sweetness": "low",
+      "acidity": "low",
+      "saltiness": "low"
+    },
+    "texture": "creamy",
+    "flavor_strength": "mild",
+    "special_capabilities": [
+      "emulsifier"
+    ],
+    "direct_substitutes": [],
+    "source": "manual"
+  },
+  "onions": {
+    "parent": null,
+    "category": "vegetable",
+    "primary_function": "bulk_vegetable",
+    "possible_functions": [
+      "bulk_vegetable",
+      "body_provider"
+    ],
+    "properties": {
+      "fat": "low",
+      "moisture": "medium",
+      "sweetness": "low",
+      "acidity": "low",
+      "saltiness": "low"
+    },
+    "texture": "solid",
+    "flavor_strength": "mild",
+    "special_capabilities": [],
+    "direct_substitutes": [],
+    "source": "manual"
+  },
+  "dijon mustard": {
+    "parent": null,
+    "category": "vegetable",
+    "primary_function": "bulk_vegetable",
+    "possible_functions": [
+      "bulk_vegetable",
+      "body_provider"
+    ],
+    "properties": {
+      "fat": "low",
+      "moisture": "medium",
+      "sweetness": "low",
+      "acidity": "low",
+      "saltiness": "low"
+    },
+    "texture": "solid",
+    "flavor_strength": "mild",
+    "special_capabilities": [],
+    "direct_substitutes": [],
+    "source": "manual"
+  },
+  "whole milk": {
+    "parent": null,
+    "category": "dairy",
+    "primary_function": "body_provider",
+    "possible_functions": [
+      "body_provider",
+      "sauce_base"
+    ],
+    "properties": {
+      "fat": "medium",
+      "moisture": "medium",
+      "sweetness": "low",
+      "acidity": "low",
+      "saltiness": "low"
+    },
+    "texture": "liquid",
+    "flavor_strength": "mild",
+    "special_capabilities": [],
+    "direct_substitutes": [],
+    "source": "manual"
+  },
+  "baking powder": {
+    "parent": null,
+    "category": "vegetable",
+    "primary_function": "bulk_vegetable",
+    "possible_functions": [
+      "bulk_vegetable",
+      "body_provider"
+    ],
+    "properties": {
+      "fat": "low",
+      "moisture": "medium",
+      "sweetness": "low",
+      "acidity": "low",
+      "saltiness": "low"
+    },
+    "texture": "solid",
+    "flavor_strength": "mild",
+    "special_capabilities": [],
+    "direct_substitutes": [],
+    "source": "manual"
+  },
+  "egg yolks": {
+    "parent": null,
+    "category": "vegetable",
+    "primary_function": "bulk_vegetable",
+    "possible_functions": [
+      "bulk_vegetable",
+      "body_provider"
+    ],
+    "properties": {
+      "fat": "low",
+      "moisture": "medium",
+      "sweetness": "low",
+      "acidity": "low",
+      "saltiness": "low"
+    },
+    "texture": "solid",
+    "flavor_strength": "mild",
+    "special_capabilities": [],
+    "direct_substitutes": [],
+    "source": "manual"
+  },
+  "cumin": {
+    "parent": null,
+    "category": "seasoning",
+    "primary_function": "seasoning",
+    "possible_functions": [
+      "seasoning",
+      "savory_component"
+    ],
+    "properties": {
+      "fat": "low",
+      "moisture": "medium",
+      "sweetness": "low",
+      "acidity": "low",
+      "saltiness": "low"
+    },
+    "texture": "solid",
+    "flavor_strength": "strong",
+    "special_capabilities": [],
+    "direct_substitutes": [],
+    "source": "manual"
+  },
+  "shallots": {
+    "parent": null,
+    "category": "vegetable",
+    "primary_function": "bulk_vegetable",
+    "possible_functions": [
+      "bulk_vegetable",
+      "body_provider"
+    ],
+    "properties": {
+      "fat": "low",
+      "moisture": "medium",
+      "sweetness": "low",
+      "acidity": "low",
+      "saltiness": "low"
+    },
+    "texture": "solid",
+    "flavor_strength": "mild",
+    "special_capabilities": [],
+    "direct_substitutes": [],
+    "source": "manual"
+  },
+  "parsley": {
+    "parent": null,
+    "category": "vegetable",
+    "primary_function": "bulk_vegetable",
+    "possible_functions": [
+      "bulk_vegetable",
+      "body_provider"
+    ],
+    "properties": {
+      "fat": "low",
+      "moisture": "medium",
+      "sweetness": "low",
+      "acidity": "low",
+      "saltiness": "low"
+    },
+    "texture": "solid",
+    "flavor_strength": "mild",
+    "special_capabilities": [],
+    "direct_substitutes": [],
+    "source": "manual"
+  },
+  "red onion": {
+    "parent": null,
+    "category": "vegetable",
+    "primary_function": "bulk_vegetable",
+    "possible_functions": [
+      "bulk_vegetable",
+      "body_provider"
+    ],
+    "properties": {
+      "fat": "low",
+      "moisture": "medium",
+      "sweetness": "low",
+      "acidity": "low",
+      "saltiness": "low"
+    },
+    "texture": "solid",
+    "flavor_strength": "mild",
+    "special_capabilities": [],
+    "direct_substitutes": [],
+    "source": "manual"
+  },
+  "cilantro": {
+    "parent": null,
+    "category": "vegetable",
+    "primary_function": "bulk_vegetable",
+    "possible_functions": [
+      "bulk_vegetable",
+      "body_provider"
+    ],
+    "properties": {
+      "fat": "low",
+      "moisture": "medium",
+      "sweetness": "low",
+      "acidity": "low",
+      "saltiness": "low"
+    },
+    "texture": "solid",
+    "flavor_strength": "mild",
+    "special_capabilities": [],
+    "direct_substitutes": [],
+    "source": "manual"
+  },
+  "red wine vinegar": {
+    "parent": null,
+    "category": "liquid",
+    "primary_function": "acid_source",
+    "possible_functions": [
+      "acid_source",
+      "seasoning"
+    ],
+    "properties": {
+      "fat": "low",
+      "moisture": "high",
+      "sweetness": "low",
+      "acidity": "high",
+      "saltiness": "low"
+    },
+    "texture": "liquid",
+    "flavor_strength": "strong",
+    "special_capabilities": [],
+    "direct_substitutes": [],
+    "source": "manual"
+  },
+  "carrots": {
+    "parent": null,
+    "category": "vegetable",
+    "primary_function": "bulk_vegetable",
+    "possible_functions": [
+      "bulk_vegetable",
+      "body_provider"
+    ],
+    "properties": {
+      "fat": "low",
+      "moisture": "medium",
+      "sweetness": "low",
+      "acidity": "low",
+      "saltiness": "low"
+    },
+    "texture": "solid",
+    "flavor_strength": "mild",
+    "special_capabilities": [],
+    "direct_substitutes": [],
+    "source": "manual"
+  },
+  "egg": {
+    "parent": null,
+    "category": "binder",
+    "primary_function": "binder",
+    "possible_functions": [
+      "binder",
+      "structure",
+      "body_provider"
+    ],
+    "properties": {
+      "fat": "medium",
+      "moisture": "medium",
+      "sweetness": "low",
+      "acidity": "low",
+      "saltiness": "low"
+    },
+    "texture": "soft",
+    "flavor_strength": "mild",
+    "special_capabilities": [
+      "emulsifier",
+      "whippable"
+    ],
+    "direct_substitutes": [],
+    "source": "manual"
+  },
+  "sour cream": {
+    "parent": null,
+    "category": "dairy",
+    "primary_function": "body_provider",
+    "possible_functions": [
+      "body_provider",
+      "sauce_base"
+    ],
+    "properties": {
+      "fat": "medium",
+      "moisture": "medium",
+      "sweetness": "low",
+      "acidity": "low",
+      "saltiness": "low"
+    },
+    "texture": "creamy",
+    "flavor_strength": "mild",
+    "special_capabilities": [
+      "emulsifier"
+    ],
+    "direct_substitutes": [],
+    "source": "manual"
+  },
+  "honey": {
+    "parent": null,
+    "category": "sweetener",
+    "primary_function": "sweetener",
+    "possible_functions": [
+      "sweetener",
+      "seasoning"
+    ],
+    "properties": {
+      "fat": "low",
+      "moisture": "medium",
+      "sweetness": "high",
+      "acidity": "low",
+      "saltiness": "low"
+    },
+    "texture": "liquid",
+    "flavor_strength": "medium",
+    "special_capabilities": [],
+    "direct_substitutes": [],
+    "source": "manual"
+  },
+  "soy sauce": {
+    "parent": null,
+    "category": "vegetable",
+    "primary_function": "bulk_vegetable",
+    "possible_functions": [
+      "bulk_vegetable",
+      "body_provider"
+    ],
+    "properties": {
+      "fat": "low",
+      "moisture": "medium",
+      "sweetness": "low",
+      "acidity": "low",
+      "saltiness": "low"
+    },
+    "texture": "solid",
+    "flavor_strength": "mild",
+    "special_capabilities": [],
+    "direct_substitutes": [],
+    "source": "manual"
+  },
+  "shallot": {
+    "parent": null,
+    "category": "aromatic",
+    "primary_function": "aromatic",
+    "possible_functions": [
+      "aromatic",
+      "flavor_base"
+    ],
+    "properties": {
+      "fat": "low",
+      "moisture": "medium",
+      "sweetness": "low",
+      "acidity": "low",
+      "saltiness": "low"
+    },
+    "texture": "solid",
+    "flavor_strength": "strong",
+    "special_capabilities": [
+      "caramelizable"
+    ],
+    "direct_substitutes": [],
+    "source": "manual"
+  },
+  "rosemary": {
+    "parent": null,
+    "category": "vegetable",
+    "primary_function": "bulk_vegetable",
+    "possible_functions": [
+      "bulk_vegetable",
+      "body_provider"
+    ],
+    "properties": {
+      "fat": "low",
+      "moisture": "medium",
+      "sweetness": "low",
+      "acidity": "low",
+      "saltiness": "low"
+    },
+    "texture": "solid",
+    "flavor_strength": "mild",
+    "special_capabilities": [],
+    "direct_substitutes": [],
+    "source": "manual"
+  },
+  "mayonnaise": {
+    "parent": null,
+    "category": "vegetable",
+    "primary_function": "bulk_vegetable",
+    "possible_functions": [
+      "bulk_vegetable",
+      "body_provider"
+    ],
+    "properties": {
+      "fat": "low",
+      "moisture": "medium",
+      "sweetness": "low",
+      "acidity": "low",
+      "saltiness": "low"
+    },
+    "texture": "solid",
+    "flavor_strength": "mild",
+    "special_capabilities": [],
+    "direct_substitutes": [],
+    "source": "manual"
+  },
+  "milk": {
+    "parent": null,
+    "category": "dairy",
+    "primary_function": "body_provider",
+    "possible_functions": [
+      "body_provider",
+      "sauce_base"
+    ],
+    "properties": {
+      "fat": "medium",
+      "moisture": "medium",
+      "sweetness": "low",
+      "acidity": "low",
+      "saltiness": "low"
+    },
+    "texture": "liquid",
+    "flavor_strength": "mild",
+    "special_capabilities": [],
+    "direct_substitutes": [],
+    "source": "manual"
+  },
+  "baking soda": {
+    "parent": null,
+    "category": "vegetable",
+    "primary_function": "bulk_vegetable",
+    "possible_functions": [
+      "bulk_vegetable",
+      "body_provider"
+    ],
+    "properties": {
+      "fat": "low",
+      "moisture": "medium",
+      "sweetness": "low",
+      "acidity": "low",
+      "saltiness": "low"
+    },
+    "texture": "solid",
+    "flavor_strength": "mild",
+    "special_capabilities": [],
+    "direct_substitutes": [],
+    "source": "manual"
+  },
+  "cornstarch": {
+    "parent": null,
+    "category": "vegetable",
+    "primary_function": "bulk_vegetable",
+    "possible_functions": [
+      "bulk_vegetable",
+      "body_provider"
+    ],
+    "properties": {
+      "fat": "low",
+      "moisture": "medium",
+      "sweetness": "low",
+      "acidity": "low",
+      "saltiness": "low"
+    },
+    "texture": "solid",
+    "flavor_strength": "mild",
+    "special_capabilities": [],
+    "direct_substitutes": [],
+    "source": "manual"
+  },
+  "red bell pepper": {
+    "parent": null,
+    "category": "seasoning",
+    "primary_function": "seasoning",
+    "possible_functions": [
+      "seasoning",
+      "savory_component"
+    ],
+    "properties": {
+      "fat": "low",
+      "moisture": "low",
+      "sweetness": "low",
+      "acidity": "low",
+      "saltiness": "low"
+    },
+    "texture": "powder",
+    "flavor_strength": "strong",
+    "special_capabilities": [],
+    "direct_substitutes": [],
+    "source": "manual"
+  },
+  "chives": {
+    "parent": null,
+    "category": "vegetable",
+    "primary_function": "bulk_vegetable",
+    "possible_functions": [
+      "bulk_vegetable",
+      "body_provider"
+    ],
+    "properties": {
+      "fat": "low",
+      "moisture": "medium",
+      "sweetness": "low",
+      "acidity": "low",
+      "saltiness": "low"
+    },
+    "texture": "solid",
+    "flavor_strength": "mild",
+    "special_capabilities": [],
+    "direct_substitutes": [],
+    "source": "manual"
+  },
+  "green onions": {
+    "parent": null,
+    "category": "vegetable",
+    "primary_function": "bulk_vegetable",
+    "possible_functions": [
+      "bulk_vegetable",
+      "body_provider"
+    ],
+    "properties": {
+      "fat": "low",
+      "moisture": "medium",
+      "sweetness": "low",
+      "acidity": "low",
+      "saltiness": "low"
+    },
+    "texture": "solid",
+    "flavor_strength": "mild",
+    "special_capabilities": [],
+    "direct_substitutes": [],
+    "source": "manual"
+  },
+  "scallions": {
+    "parent": null,
+    "category": "vegetable",
+    "primary_function": "bulk_vegetable",
+    "possible_functions": [
+      "bulk_vegetable",
+      "body_provider"
+    ],
+    "properties": {
+      "fat": "low",
+      "moisture": "medium",
+      "sweetness": "low",
+      "acidity": "low",
+      "saltiness": "low"
+    },
+    "texture": "solid",
+    "flavor_strength": "mild",
+    "special_capabilities": [],
+    "direct_substitutes": [],
+    "source": "manual"
+  },
+  "low salt chicken broth": {
+    "parent": null,
+    "category": "protein",
+    "primary_function": "main_protein",
+    "possible_functions": [
+      "main_protein",
+      "savory_component",
+      "body_provider"
+    ],
+    "properties": {
+      "fat": "low",
+      "moisture": "medium",
+      "sweetness": "low",
+      "acidity": "low",
+      "saltiness": "low"
+    },
+    "texture": "solid",
+    "flavor_strength": "medium",
+    "special_capabilities": [
+      "searable"
+    ],
+    "direct_substitutes": [],
+    "source": "manual"
+  },
+  "balsamic vinegar": {
+    "parent": null,
+    "category": "liquid",
+    "primary_function": "acid_source",
+    "possible_functions": [
+      "acid_source",
+      "seasoning"
+    ],
+    "properties": {
+      "fat": "low",
+      "moisture": "high",
+      "sweetness": "low",
+      "acidity": "high",
+      "saltiness": "low"
+    },
+    "texture": "liquid",
+    "flavor_strength": "strong",
+    "special_capabilities": [],
+    "direct_substitutes": [],
+    "source": "manual"
+  },
+  "white wine vinegar": {
+    "parent": null,
+    "category": "liquid",
+    "primary_function": "acid_source",
+    "possible_functions": [
+      "acid_source",
+      "seasoning"
+    ],
+    "properties": {
+      "fat": "low",
+      "moisture": "high",
+      "sweetness": "low",
+      "acidity": "high",
+      "saltiness": "low"
+    },
+    "texture": "liquid",
+    "flavor_strength": "strong",
+    "special_capabilities": [],
+    "direct_substitutes": [],
+    "source": "manual"
+  },
+  "cream cheese": {
+    "parent": null,
+    "category": "dairy",
+    "primary_function": "body_provider",
+    "possible_functions": [
+      "body_provider",
+      "sauce_base"
+    ],
+    "properties": {
+      "fat": "medium",
+      "moisture": "medium",
+      "sweetness": "low",
+      "acidity": "low",
+      "saltiness": "low"
+    },
+    "texture": "creamy",
+    "flavor_strength": "mild",
+    "special_capabilities": [
+      "emulsifier"
+    ],
+    "direct_substitutes": [],
+    "source": "manual"
+  },
+  "basil": {
+    "parent": null,
+    "category": "seasoning",
+    "primary_function": "seasoning",
+    "possible_functions": [
+      "seasoning",
+      "savory_component"
+    ],
+    "properties": {
+      "fat": "low",
+      "moisture": "medium",
+      "sweetness": "low",
+      "acidity": "low",
+      "saltiness": "low"
+    },
+    "texture": "solid",
+    "flavor_strength": "strong",
+    "special_capabilities": [],
+    "direct_substitutes": [],
+    "source": "manual"
+  },
+  "ginger": {
+    "parent": null,
+    "category": "vegetable",
+    "primary_function": "bulk_vegetable",
+    "possible_functions": [
+      "bulk_vegetable",
+      "body_provider"
+    ],
+    "properties": {
+      "fat": "low",
+      "moisture": "medium",
+      "sweetness": "low",
+      "acidity": "low",
+      "saltiness": "low"
+    },
+    "texture": "solid",
+    "flavor_strength": "mild",
+    "special_capabilities": [],
+    "direct_substitutes": [],
+    "source": "manual"
+  },
+  "bacon": {
+    "parent": null,
+    "category": "vegetable",
+    "primary_function": "bulk_vegetable",
+    "possible_functions": [
+      "bulk_vegetable",
+      "body_provider"
+    ],
+    "properties": {
+      "fat": "low",
+      "moisture": "medium",
+      "sweetness": "low",
+      "acidity": "low",
+      "saltiness": "low"
+    },
+    "texture": "solid",
+    "flavor_strength": "mild",
+    "special_capabilities": [],
+    "direct_substitutes": [],
+    "source": "manual"
+  },
+  "orange juice": {
+    "parent": null,
+    "category": "liquid",
+    "primary_function": "liquid_base",
+    "possible_functions": [
+      "liquid_base",
+      "sauce_base",
+      "body_provider"
+    ],
+    "properties": {
+      "fat": "low",
+      "moisture": "high",
+      "sweetness": "low",
+      "acidity": "low",
+      "saltiness": "low"
+    },
+    "texture": "liquid",
+    "flavor_strength": "mild",
+    "special_capabilities": [],
+    "direct_substitutes": [],
+    "source": "manual"
+  },
+  "lemon": {
+    "parent": null,
+    "category": "vegetable",
+    "primary_function": "bulk_vegetable",
+    "possible_functions": [
+      "bulk_vegetable",
+      "body_provider"
+    ],
+    "properties": {
+      "fat": "low",
+      "moisture": "medium",
+      "sweetness": "low",
+      "acidity": "low",
+      "saltiness": "low"
+    },
+    "texture": "solid",
+    "flavor_strength": "mild",
+    "special_capabilities": [],
+    "direct_substitutes": [],
+    "source": "manual"
+  },
+  "powdered sugar": {
+    "parent": null,
+    "category": "sweetener",
+    "primary_function": "sweetener",
+    "possible_functions": [
+      "sweetener",
+      "seasoning"
+    ],
+    "properties": {
+      "fat": "low",
+      "moisture": "medium",
+      "sweetness": "high",
+      "acidity": "low",
+      "saltiness": "low"
+    },
+    "texture": "powder",
+    "flavor_strength": "medium",
+    "special_capabilities": [],
+    "direct_substitutes": [],
+    "source": "manual"
+  },
+  "chilled unsalted butter": {
+    "parent": null,
+    "category": "dairy",
+    "primary_function": "fat_source",
+    "possible_functions": [
+      "fat_source",
+      "flavor_base",
+      "coating"
+    ],
+    "properties": {
+      "fat": "high",
+      "moisture": "low",
+      "sweetness": "low",
+      "acidity": "low",
+      "saltiness": "low"
+    },
+    "texture": "solid",
+    "flavor_strength": "medium",
+    "special_capabilities": [
+      "emulsifier"
+    ],
+    "direct_substitutes": [],
+    "source": "manual"
+  },
+  "tomatoes": {
+    "parent": null,
+    "category": "vegetable",
+    "primary_function": "bulk_vegetable",
+    "possible_functions": [
+      "bulk_vegetable",
+      "body_provider"
+    ],
+    "properties": {
+      "fat": "low",
+      "moisture": "medium",
+      "sweetness": "low",
+      "acidity": "low",
+      "saltiness": "low"
+    },
+    "texture": "solid",
+    "flavor_strength": "mild",
+    "special_capabilities": [],
+    "direct_substitutes": [],
+    "source": "manual"
+  },
+  "dried oregano": {
+    "parent": null,
+    "category": "seasoning",
+    "primary_function": "seasoning",
+    "possible_functions": [
+      "seasoning",
+      "savory_component"
+    ],
+    "properties": {
+      "fat": "low",
+      "moisture": "medium",
+      "sweetness": "low",
+      "acidity": "low",
+      "saltiness": "low"
+    },
+    "texture": "solid",
+    "flavor_strength": "strong",
+    "special_capabilities": [],
+    "direct_substitutes": [],
+    "source": "manual"
+  },
+  "cayenne pepper": {
+    "parent": null,
+    "category": "seasoning",
+    "primary_function": "seasoning",
+    "possible_functions": [
+      "seasoning",
+      "savory_component"
+    ],
+    "properties": {
+      "fat": "low",
+      "moisture": "low",
+      "sweetness": "low",
+      "acidity": "low",
+      "saltiness": "low"
+    },
+    "texture": "powder",
+    "flavor_strength": "strong",
+    "special_capabilities": [],
+    "direct_substitutes": [],
+    "source": "manual"
+  },
+  "mint": {
+    "parent": null,
+    "category": "vegetable",
+    "primary_function": "bulk_vegetable",
+    "possible_functions": [
+      "bulk_vegetable",
+      "body_provider"
+    ],
+    "properties": {
+      "fat": "low",
+      "moisture": "medium",
+      "sweetness": "low",
+      "acidity": "low",
+      "saltiness": "low"
+    },
+    "texture": "solid",
+    "flavor_strength": "mild",
+    "special_capabilities": [],
+    "direct_substitutes": [],
+    "source": "manual"
+  },
+  "granulated sugar": {
+    "parent": null,
+    "category": "sweetener",
+    "primary_function": "sweetener",
+    "possible_functions": [
+      "sweetener",
+      "seasoning"
+    ],
+    "properties": {
+      "fat": "low",
+      "moisture": "medium",
+      "sweetness": "high",
+      "acidity": "low",
+      "saltiness": "low"
+    },
+    "texture": "powder",
+    "flavor_strength": "medium",
+    "special_capabilities": [],
+    "direct_substitutes": [],
+    "source": "manual"
+  },
+  "italian parsley": {
+    "parent": null,
+    "category": "vegetable",
+    "primary_function": "bulk_vegetable",
+    "possible_functions": [
+      "bulk_vegetable",
+      "body_provider"
+    ],
+    "properties": {
+      "fat": "low",
+      "moisture": "medium",
+      "sweetness": "low",
+      "acidity": "low",
+      "saltiness": "low"
+    },
+    "texture": "solid",
+    "flavor_strength": "mild",
+    "special_capabilities": [],
+    "direct_substitutes": [],
+    "source": "manual"
+  },
+  "red pepper": {
+    "parent": null,
+    "category": "seasoning",
+    "primary_function": "seasoning",
+    "possible_functions": [
+      "seasoning",
+      "savory_component"
+    ],
+    "properties": {
+      "fat": "low",
+      "moisture": "low",
+      "sweetness": "low",
+      "acidity": "low",
+      "saltiness": "low"
+    },
+    "texture": "powder",
+    "flavor_strength": "strong",
+    "special_capabilities": [],
+    "direct_substitutes": [],
+    "source": "manual"
+  },
+  "egg whites": {
+    "parent": null,
+    "category": "vegetable",
+    "primary_function": "bulk_vegetable",
+    "possible_functions": [
+      "bulk_vegetable",
+      "body_provider"
+    ],
+    "properties": {
+      "fat": "low",
+      "moisture": "medium",
+      "sweetness": "low",
+      "acidity": "low",
+      "saltiness": "low"
+    },
+    "texture": "solid",
+    "flavor_strength": "mild",
+    "special_capabilities": [],
+    "direct_substitutes": [],
+    "source": "manual"
+  },
+  "nutmeg": {
+    "parent": null,
+    "category": "seasoning",
+    "primary_function": "seasoning",
+    "possible_functions": [
+      "seasoning",
+      "savory_component"
+    ],
+    "properties": {
+      "fat": "low",
+      "moisture": "medium",
+      "sweetness": "low",
+      "acidity": "low",
+      "saltiness": "low"
+    },
+    "texture": "solid",
+    "flavor_strength": "strong",
+    "special_capabilities": [],
+    "direct_substitutes": [],
+    "source": "manual"
+  },
+  "canned low salt chicken broth": {
+    "parent": null,
+    "category": "protein",
+    "primary_function": "main_protein",
+    "possible_functions": [
+      "main_protein",
+      "savory_component",
+      "body_provider"
+    ],
+    "properties": {
+      "fat": "low",
+      "moisture": "medium",
+      "sweetness": "low",
+      "acidity": "low",
+      "saltiness": "low"
+    },
+    "texture": "solid",
+    "flavor_strength": "medium",
+    "special_capabilities": [
+      "searable"
+    ],
+    "direct_substitutes": [],
+    "source": "manual"
+  },
+  "grated lemon peel": {
+    "parent": null,
+    "category": "vegetable",
+    "primary_function": "bulk_vegetable",
+    "possible_functions": [
+      "bulk_vegetable",
+      "body_provider"
+    ],
+    "properties": {
+      "fat": "low",
+      "moisture": "medium",
+      "sweetness": "low",
+      "acidity": "low",
+      "saltiness": "low"
+    },
+    "texture": "solid",
+    "flavor_strength": "mild",
+    "special_capabilities": [],
+    "direct_substitutes": [],
+    "source": "manual"
+  },
+  "coarse kosher salt": {
+    "parent": null,
+    "category": "seasoning",
+    "primary_function": "seasoning",
+    "possible_functions": [
+      "seasoning",
+      "savory_component"
+    ],
+    "properties": {
+      "fat": "low",
+      "moisture": "low",
+      "sweetness": "low",
+      "acidity": "low",
+      "saltiness": "high"
+    },
+    "texture": "powder",
+    "flavor_strength": "strong",
+    "special_capabilities": [],
+    "direct_substitutes": [],
+    "source": "manual"
+  },
+  "chicken broth": {
+    "parent": null,
+    "category": "protein",
+    "primary_function": "main_protein",
+    "possible_functions": [
+      "main_protein",
+      "savory_component",
+      "body_provider"
+    ],
+    "properties": {
+      "fat": "low",
+      "moisture": "medium",
+      "sweetness": "low",
+      "acidity": "low",
+      "saltiness": "low"
+    },
+    "texture": "solid",
+    "flavor_strength": "medium",
+    "special_capabilities": [
+      "searable"
+    ],
+    "direct_substitutes": [],
+    "source": "manual"
+  },
+  "paprika": {
+    "parent": null,
+    "category": "seasoning",
+    "primary_function": "seasoning",
+    "possible_functions": [
+      "seasoning",
+      "savory_component"
+    ],
+    "properties": {
+      "fat": "low",
+      "moisture": "low",
+      "sweetness": "low",
+      "acidity": "low",
+      "saltiness": "low"
+    },
+    "texture": "powder",
+    "flavor_strength": "strong",
+    "special_capabilities": [],
+    "direct_substitutes": [],
+    "source": "manual"
+  },
+  "dry red wine": {
+    "parent": null,
+    "category": "liquid",
+    "primary_function": "liquid_base",
+    "possible_functions": [
+      "liquid_base",
+      "sauce_base",
+      "body_provider"
+    ],
+    "properties": {
+      "fat": "low",
+      "moisture": "high",
+      "sweetness": "low",
+      "acidity": "low",
+      "saltiness": "low"
+    },
+    "texture": "liquid",
+    "flavor_strength": "mild",
+    "special_capabilities": [],
+    "direct_substitutes": [],
+    "source": "manual"
+  },
+  "bay leaves": {
+    "parent": null,
+    "category": "vegetable",
+    "primary_function": "bulk_vegetable",
+    "possible_functions": [
+      "bulk_vegetable",
+      "body_provider"
+    ],
+    "properties": {
+      "fat": "low",
+      "moisture": "medium",
+      "sweetness": "low",
+      "acidity": "low",
+      "saltiness": "low"
+    },
+    "texture": "solid",
+    "flavor_strength": "mild",
+    "special_capabilities": [],
+    "direct_substitutes": [],
+    "source": "manual"
+  },
+  "plum tomatoes": {
+    "parent": null,
+    "category": "vegetable",
+    "primary_function": "bulk_vegetable",
+    "possible_functions": [
+      "bulk_vegetable",
+      "body_provider"
+    ],
+    "properties": {
+      "fat": "low",
+      "moisture": "medium",
+      "sweetness": "low",
+      "acidity": "low",
+      "saltiness": "low"
+    },
+    "texture": "solid",
+    "flavor_strength": "mild",
+    "special_capabilities": [],
+    "direct_substitutes": [],
+    "source": "manual"
+  },
+  "peeled ginger": {
+    "parent": null,
+    "category": "vegetable",
+    "primary_function": "bulk_vegetable",
+    "possible_functions": [
+      "bulk_vegetable",
+      "body_provider"
+    ],
+    "properties": {
+      "fat": "low",
+      "moisture": "medium",
+      "sweetness": "low",
+      "acidity": "low",
+      "saltiness": "low"
+    },
+    "texture": "solid",
+    "flavor_strength": "mild",
+    "special_capabilities": [],
+    "direct_substitutes": [],
+    "source": "manual"
+  },
+  "chicken breast": {
+    "parent": null,
+    "category": "protein",
+    "primary_function": "main_protein",
+    "possible_functions": [
+      "main_protein",
+      "savory_component",
+      "body_provider"
+    ],
+    "properties": {
+      "fat": "low",
+      "moisture": "medium",
+      "sweetness": "low",
+      "acidity": "low",
+      "saltiness": "low"
+    },
+    "texture": "solid",
+    "flavor_strength": "medium",
+    "special_capabilities": [
+      "searable"
+    ],
+    "direct_substitutes": [],
+    "source": "manual"
+  },
+  "walnuts": {
+    "parent": null,
+    "category": "vegetable",
+    "primary_function": "bulk_vegetable",
+    "possible_functions": [
+      "bulk_vegetable",
+      "body_provider"
+    ],
+    "properties": {
+      "fat": "low",
+      "moisture": "medium",
+      "sweetness": "low",
+      "acidity": "low",
+      "saltiness": "low"
+    },
+    "texture": "solid",
+    "flavor_strength": "mild",
+    "special_capabilities": [],
+    "direct_substitutes": [],
+    "source": "manual"
+  },
+  "golden brown sugar": {
+    "parent": null,
+    "category": "sweetener",
+    "primary_function": "sweetener",
+    "possible_functions": [
+      "sweetener",
+      "seasoning"
+    ],
+    "properties": {
+      "fat": "low",
+      "moisture": "medium",
+      "sweetness": "high",
+      "acidity": "low",
+      "saltiness": "low"
+    },
+    "texture": "powder",
+    "flavor_strength": "medium",
+    "special_capabilities": [],
+    "direct_substitutes": [],
+    "source": "manual"
+  },
+  "fennel bulb": {
+    "parent": null,
+    "category": "vegetable",
+    "primary_function": "bulk_vegetable",
+    "possible_functions": [
+      "bulk_vegetable",
+      "body_provider"
+    ],
+    "properties": {
+      "fat": "low",
+      "moisture": "medium",
+      "sweetness": "low",
+      "acidity": "low",
+      "saltiness": "low"
+    },
+    "texture": "solid",
+    "flavor_strength": "mild",
+    "special_capabilities": [],
+    "direct_substitutes": [],
+    "source": "manual"
+  },
+  "dried thyme": {
+    "parent": null,
+    "category": "seasoning",
+    "primary_function": "seasoning",
+    "possible_functions": [
+      "seasoning",
+      "savory_component"
+    ],
+    "properties": {
+      "fat": "low",
+      "moisture": "medium",
+      "sweetness": "low",
+      "acidity": "low",
+      "saltiness": "low"
+    },
+    "texture": "solid",
+    "flavor_strength": "strong",
+    "special_capabilities": [],
+    "direct_substitutes": [],
+    "source": "manual"
+  },
+  "nonstick vegetable oil spray": {
+    "parent": null,
+    "category": "fat",
+    "primary_function": "fat_source",
+    "possible_functions": [
+      "fat_source",
+      "flavor_base",
+      "coating"
+    ],
+    "properties": {
+      "fat": "high",
+      "moisture": "low",
+      "sweetness": "low",
+      "acidity": "low",
+      "saltiness": "low"
+    },
+    "texture": "liquid",
+    "flavor_strength": "medium",
+    "special_capabilities": [
+      "emulsifier"
+    ],
+    "direct_substitutes": [],
+    "source": "manual"
+  },
+  "bay leaf": {
+    "parent": null,
+    "category": "vegetable",
+    "primary_function": "bulk_vegetable",
+    "possible_functions": [
+      "bulk_vegetable",
+      "body_provider"
+    ],
+    "properties": {
+      "fat": "low",
+      "moisture": "medium",
+      "sweetness": "low",
+      "acidity": "low",
+      "saltiness": "low"
+    },
+    "texture": "solid",
+    "flavor_strength": "mild",
+    "special_capabilities": [],
+    "direct_substitutes": [],
+    "source": "manual"
+  },
+  "chilled whipping cream": {
+    "parent": null,
+    "category": "dairy",
+    "primary_function": "body_provider",
+    "possible_functions": [
+      "body_provider",
+      "sauce_base"
+    ],
+    "properties": {
+      "fat": "medium",
+      "moisture": "medium",
+      "sweetness": "low",
+      "acidity": "low",
+      "saltiness": "low"
+    },
+    "texture": "creamy",
+    "flavor_strength": "mild",
+    "special_capabilities": [
+      "emulsifier"
+    ],
+    "direct_substitutes": [],
+    "source": "manual"
+  },
+  "dill": {
+    "parent": null,
+    "category": "vegetable",
+    "primary_function": "bulk_vegetable",
+    "possible_functions": [
+      "bulk_vegetable",
+      "body_provider"
+    ],
+    "properties": {
+      "fat": "low",
+      "moisture": "medium",
+      "sweetness": "low",
+      "acidity": "low",
+      "saltiness": "low"
+    },
+    "texture": "solid",
+    "flavor_strength": "mild",
+    "special_capabilities": [],
+    "direct_substitutes": [],
+    "source": "manual"
+  },
+  "basil leaves": {
+    "parent": null,
+    "category": "seasoning",
+    "primary_function": "seasoning",
+    "possible_functions": [
+      "seasoning",
+      "savory_component"
+    ],
+    "properties": {
+      "fat": "low",
+      "moisture": "medium",
+      "sweetness": "low",
+      "acidity": "low",
+      "saltiness": "low"
+    },
+    "texture": "solid",
+    "flavor_strength": "strong",
+    "special_capabilities": [],
+    "direct_substitutes": [],
+    "source": "manual"
+  },
+  "buttermilk": {
+    "parent": null,
+    "category": "vegetable",
+    "primary_function": "bulk_vegetable",
+    "possible_functions": [
+      "bulk_vegetable",
+      "body_provider"
+    ],
+    "properties": {
+      "fat": "low",
+      "moisture": "medium",
+      "sweetness": "low",
+      "acidity": "low",
+      "saltiness": "low"
+    },
+    "texture": "solid",
+    "flavor_strength": "mild",
+    "special_capabilities": [],
+    "direct_substitutes": [],
+    "source": "manual"
+  },
+  "freshly grated parmesan cheese": {
+    "parent": null,
+    "category": "dairy",
+    "primary_function": "body_provider",
+    "possible_functions": [
+      "body_provider",
+      "sauce_base"
+    ],
+    "properties": {
+      "fat": "medium",
+      "moisture": "medium",
+      "sweetness": "low",
+      "acidity": "low",
+      "saltiness": "low"
+    },
+    "texture": "solid",
+    "flavor_strength": "mild",
+    "special_capabilities": [
+      "emulsifier"
+    ],
+    "direct_substitutes": [],
+    "source": "manual"
+  },
+  "vanilla": {
+    "parent": null,
+    "category": "seasoning",
+    "primary_function": "seasoning",
+    "possible_functions": [
+      "seasoning",
+      "savory_component"
+    ],
+    "properties": {
+      "fat": "low",
+      "moisture": "medium",
+      "sweetness": "low",
+      "acidity": "low",
+      "saltiness": "low"
+    },
+    "texture": "solid",
+    "flavor_strength": "strong",
+    "special_capabilities": [],
+    "direct_substitutes": [],
+    "source": "manual"
+  },
+  "pine nuts": {
+    "parent": null,
+    "category": "vegetable",
+    "primary_function": "bulk_vegetable",
+    "possible_functions": [
+      "bulk_vegetable",
+      "body_provider"
+    ],
+    "properties": {
+      "fat": "low",
+      "moisture": "medium",
+      "sweetness": "low",
+      "acidity": "low",
+      "saltiness": "low"
+    },
+    "texture": "solid",
+    "flavor_strength": "mild",
+    "special_capabilities": [],
+    "direct_substitutes": [],
+    "source": "manual"
+  },
+  "zucchini": {
+    "parent": null,
+    "category": "vegetable",
+    "primary_function": "bulk_vegetable",
+    "possible_functions": [
+      "bulk_vegetable",
+      "body_provider"
+    ],
+    "properties": {
+      "fat": "low",
+      "moisture": "medium",
+      "sweetness": "low",
+      "acidity": "low",
+      "saltiness": "low"
+    },
+    "texture": "solid",
+    "flavor_strength": "mild",
+    "special_capabilities": [],
+    "direct_substitutes": [],
+    "source": "manual"
+  },
+  "grated parmesan cheese": {
+    "parent": null,
+    "category": "dairy",
+    "primary_function": "body_provider",
+    "possible_functions": [
+      "body_provider",
+      "sauce_base"
+    ],
+    "properties": {
+      "fat": "medium",
+      "moisture": "medium",
+      "sweetness": "low",
+      "acidity": "low",
+      "saltiness": "low"
+    },
+    "texture": "solid",
+    "flavor_strength": "mild",
+    "special_capabilities": [
+      "emulsifier"
+    ],
+    "direct_substitutes": [],
+    "source": "manual"
+  },
+  "fennel seeds": {
+    "parent": null,
+    "category": "vegetable",
+    "primary_function": "bulk_vegetable",
+    "possible_functions": [
+      "bulk_vegetable",
+      "body_provider"
+    ],
+    "properties": {
+      "fat": "low",
+      "moisture": "medium",
+      "sweetness": "low",
+      "acidity": "low",
+      "saltiness": "low"
+    },
+    "texture": "solid",
+    "flavor_strength": "mild",
+    "special_capabilities": [],
+    "direct_substitutes": [],
+    "source": "manual"
+  },
+  "allspice": {
+    "parent": null,
+    "category": "vegetable",
+    "primary_function": "bulk_vegetable",
+    "possible_functions": [
+      "bulk_vegetable",
+      "body_provider"
+    ],
+    "properties": {
+      "fat": "low",
+      "moisture": "medium",
+      "sweetness": "low",
+      "acidity": "low",
+      "saltiness": "low"
+    },
+    "texture": "solid",
+    "flavor_strength": "mild",
+    "special_capabilities": [],
+    "direct_substitutes": [],
+    "source": "manual"
+  },
+  "russet potatoes": {
+    "parent": null,
+    "category": "vegetable",
+    "primary_function": "bulk_vegetable",
+    "possible_functions": [
+      "bulk_vegetable",
+      "body_provider"
+    ],
+    "properties": {
+      "fat": "low",
+      "moisture": "medium",
+      "sweetness": "low",
+      "acidity": "low",
+      "saltiness": "low"
+    },
+    "texture": "solid",
+    "flavor_strength": "mild",
+    "special_capabilities": [],
+    "direct_substitutes": [],
+    "source": "manual"
+  },
+  "tomato paste": {
+    "parent": null,
+    "category": "sauce_component",
+    "primary_function": "sauce_base",
+    "possible_functions": [
+      "sauce_base",
+      "flavor_base",
+      "body_provider"
+    ],
+    "properties": {
+      "fat": "low",
+      "moisture": "medium",
+      "sweetness": "medium",
+      "acidity": "medium",
+      "saltiness": "low"
+    },
+    "texture": "paste",
+    "flavor_strength": "medium",
+    "special_capabilities": [
+      "caramelizable"
+    ],
+    "direct_substitutes": [],
+    "source": "manual"
+  },
+  "finely grated lemon zest": {
+    "parent": null,
+    "category": "vegetable",
+    "primary_function": "bulk_vegetable",
+    "possible_functions": [
+      "bulk_vegetable",
+      "body_provider"
+    ],
+    "properties": {
+      "fat": "low",
+      "moisture": "medium",
+      "sweetness": "low",
+      "acidity": "low",
+      "saltiness": "low"
+    },
+    "texture": "solid",
+    "flavor_strength": "mild",
+    "special_capabilities": [],
+    "direct_substitutes": [],
+    "source": "manual"
+  },
+  "egg yolk": {
+    "parent": null,
+    "category": "vegetable",
+    "primary_function": "bulk_vegetable",
+    "possible_functions": [
+      "bulk_vegetable",
+      "body_provider"
+    ],
+    "properties": {
+      "fat": "low",
+      "moisture": "medium",
+      "sweetness": "low",
+      "acidity": "low",
+      "saltiness": "low"
+    },
+    "texture": "solid",
+    "flavor_strength": "mild",
+    "special_capabilities": [],
+    "direct_substitutes": [],
+    "source": "manual"
+  },
+  "carrot": {
+    "parent": null,
+    "category": "vegetable",
+    "primary_function": "bulk_vegetable",
+    "possible_functions": [
+      "bulk_vegetable",
+      "body_provider"
+    ],
+    "properties": {
+      "fat": "low",
+      "moisture": "medium",
+      "sweetness": "low",
+      "acidity": "low",
+      "saltiness": "low"
+    },
+    "texture": "solid",
+    "flavor_strength": "mild",
+    "special_capabilities": [],
+    "direct_substitutes": [],
+    "source": "manual"
+  },
+  "flat leaf parsley": {
+    "parent": null,
+    "category": "vegetable",
+    "primary_function": "bulk_vegetable",
+    "possible_functions": [
+      "bulk_vegetable",
+      "body_provider"
+    ],
+    "properties": {
+      "fat": "low",
+      "moisture": "medium",
+      "sweetness": "low",
+      "acidity": "low",
+      "saltiness": "low"
+    },
+    "texture": "solid",
+    "flavor_strength": "mild",
+    "special_capabilities": [],
+    "direct_substitutes": [],
+    "source": "manual"
+  }
+}
