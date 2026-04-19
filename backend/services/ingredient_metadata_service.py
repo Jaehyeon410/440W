@@ -56,6 +56,26 @@ def _normalized_key(text: str) -> str:
     return " ".join(str(text or "").strip().lower().split())
 
 
+import re as _re
+
+_SENTENCE_PATTERN = _re.compile(r"\b(is|are|was|were|available|optional|stores?|can be|should)\b", _re.IGNORECASE)
+
+
+def is_valid_metadata_key(key: str) -> bool:
+    """Reject keys that look like descriptive phrases rather than ingredient names."""
+    normalized = _normalized_key(key)
+    if not normalized:
+        return False
+    if len(normalized) > 60:
+        return False
+    word_count = len(normalized.split())
+    if word_count > 6:
+        return False
+    if _SENTENCE_PATTERN.search(normalized):
+        return False
+    return True
+
+
 def build_fallback_metadata(ingredient_name: str) -> Dict[str, Any]:
     entry = build_default_metadata_entry(_normalized_key(ingredient_name))
     entry["source"] = "fallback"
@@ -175,7 +195,7 @@ def load_generated_metadata() -> Dict[str, Any]:
         return {
             _normalized_key(key): value
             for key, value in raw.items()
-            if isinstance(value, dict)
+            if isinstance(value, dict) and is_valid_metadata_key(key)
         }
     except (OSError, json.JSONDecodeError):
         return {}
@@ -183,11 +203,12 @@ def load_generated_metadata() -> Dict[str, Any]:
 
 def save_generated_metadata(ingredient_name: str, entry: Dict[str, Any]) -> None:
     key = _normalized_key(ingredient_name)
-    if not key:
+    if not key or not is_valid_metadata_key(key):
         return
+    validated = validate_metadata_entry(entry, key)
     with _generated_lock:
         current = dict(load_generated_metadata())
-        current[key] = validate_metadata_entry(entry, key)
+        current[key] = validated
 
         temp_path = GENERATED_METADATA_FILE.with_suffix(".generated.tmp")
         with temp_path.open("w", encoding="utf-8") as fh:
@@ -195,6 +216,12 @@ def save_generated_metadata(ingredient_name: str, entry: Dict[str, Any]) -> None
             fh.write("\n")
         temp_path.replace(GENERATED_METADATA_FILE)
         load_generated_metadata.cache_clear()
+
+    # Auto-register into substitute pools based on possible_functions.
+    from services.substitute_pool_service import add_ingredient_to_pools
+    added = add_ingredient_to_pools(key, validated)
+    if added:
+        print(f"[metadata→pools] '{key}' added to pools: {added}")
 
 
 def _lookup_manual(key: str) -> Optional[Dict[str, Any]]:
@@ -238,7 +265,7 @@ def _parent_or_canonical_candidates(raw_name: str) -> List[str]:
     return candidates
 
 
-def get_metadata_with_fallback(ingredient_name: str) -> Dict[str, Any]:
+def get_metadata_with_fallback(ingredient_name: str, *, allow_generation: bool = True) -> Dict[str, Any]:
     raw = _normalized_key(ingredient_name)
     if not raw:
         return build_fallback_metadata(ingredient_name)
@@ -269,7 +296,7 @@ def get_metadata_with_fallback(ingredient_name: str) -> Dict[str, Any]:
         return cloned
 
     # 4) Optional Gemini generation (disabled by default for low-latency requests)
-    if _use_gemini_metadata_generation():
+    if allow_generation and _use_gemini_metadata_generation():
         generated = generate_metadata_with_gemini(raw, parent_hint=parent_hint)
         if isinstance(generated, dict):
             validated_generated = validate_metadata_entry(generated, raw)
@@ -302,8 +329,32 @@ def load_metadata() -> Dict[str, Any]:
         return {}
 
 
-def get_metadata(ingredient_key: str) -> Dict[str, Any]:
-    """Public metadata lookup with strict fallback chain and persistence."""
-    return copy.deepcopy(get_metadata_with_fallback(ingredient_key))
+def get_metadata(ingredient_key: str, *, allow_generation: bool = True) -> Dict[str, Any]:
+    """Public metadata lookup with strict fallback chain and persistence.
 
+    Set *allow_generation=False* in hot scoring paths so that candidates
+    and inventory items do not trigger slow Gemini API calls.
+    """
+    return copy.deepcopy(get_metadata_with_fallback(ingredient_key, allow_generation=allow_generation))
+
+
+def sync_pools_from_all_metadata() -> Dict[str, list]:
+    """Sync substitute pools from both manual and generated metadata.
+
+    Call at startup or after bulk metadata changes.  Returns a summary
+    of {pool_role: [newly_added_ingredients]}.
+    """
+    from services.substitute_pool_service import sync_pools_from_metadata
+
+    combined: Dict[str, Dict[str, Any]] = {}
+    combined.update(load_metadata())
+    combined.update(load_generated_metadata())
+
+    summary = sync_pools_from_metadata(combined)
+    if summary:
+        total = sum(len(v) for v in summary.values())
+        print(f"[pool_sync] {total} ingredient(s) added across {len(summary)} pool(s)")
+        for role, items in summary.items():
+            print(f"  {role}: +{items}")
+    return summary
 

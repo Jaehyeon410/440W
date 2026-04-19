@@ -20,29 +20,30 @@ Built with a **React + Vite** frontend and a **FastAPI** backend, powered by **G
 
 ```
 Fridge Remix/
-├── app-react/          # React + Vite + Tailwind frontend
+├── app-react/            # React + Vite + Tailwind frontend
 │   ├── src/
-│   │   ├── api/        # API client calling the backend
+│   │   ├── api/          # API client calling the backend
 │   │   ├── app/
-│   │   │   ├── screens/   # Page-level components (Home, Results, RecipeDetail, etc.)
+│   │   │   ├── screens/  # Page-level components (Home, Results, RecipeDetail, etc.)
 │   │   │   ├── components/ # Shared UI components
-│   │   │   └── lib/        # Utilities and local state helpers
+│   │   │   └── lib/      # Utilities and local state helpers
 │   │   └── styles/
-│   └── .env.example    # Frontend environment config template
+│   └── .env.example      # Frontend environment config template
 │
-├── backend/            # FastAPI Python backend
-│   ├── main.py         # Server entrypoint and API routes
-│   ├── services/       # Core logic (recommendation, substitutions, remix, role inference)
-│   ├── api/            # Pydantic request/response schemas
-│   ├── scripts/        # Utility and test scripts
+├── backend/              # FastAPI Python backend
+│   ├── main.py           # Server entrypoint and API routes
+│   ├── services/         # Core logic (recommendation, substitutions, remix, role inference)
+│   ├── api/              # Pydantic request/response schemas
+│   ├── utils/            # Text processing helpers
 │   ├── requirements.txt
-│   └── .env.example    # Backend environment config template
+│   └── .env.example      # Backend environment config template
 │
 ├── data/
 │   ├── 5000_recipes_western.py   # Script to generate western_5000.json from raw data
 │   └── western_5000.json         # Processed recipe dataset (runtime required)
 │
-└── docker-compose.yml  # Docker Compose scaffold (WIP)
+├── .gitignore
+└── README.md
 ```
 
 ---
@@ -187,14 +188,8 @@ This project no longer uses FAISS/vector retrieval for `/api/recommend`.
 |---|---|---|
 | `backend/requirements.txt` | ✅ | — |
 | `backend/ingredient_metadata.json` | ✅ | — (hand-curated metadata) |
-| `backend/ingredient_roles.json` | ✅ | — (hand-curated role hints) |
 | `backend/substitute_pools.json` | ✅ | — (hand-curated pools) |
 | `data/western_5000.json` | ✅ | `python data/5000_recipes_western.py` |
-| `backend/index.faiss` | ❌ | legacy artifact (kept ignored) |
-| `backend/index_meta.json` | ❌ | legacy artifact (kept ignored) |
-| `backend/emb_cache.jsonl` | ❌ | legacy artifact (kept ignored) |
-| `backend/index_progress.json` | ❌ | legacy artifact (kept ignored) |
-| `backend/ingredient_roles.generated.json` | ❌ | auto-created at runtime |
 | `backend/ingredient_metadata.generated.json` | ❌ | auto-created when `ENABLE_GEMINI_METADATA=1` |
 | `backend/unknown_log.json` | ❌ | auto-created at runtime |
 | `app-react/dist/` | ❌ | `npm run build` |

@@ -2,6 +2,7 @@ from typing import Dict, List, Optional, Set
 
 from ingredient_normalizer_v2 import normalize_ingredient_v2
 from recipe_utils import normalize_ingredient, normalize_ingredient_list
+from services.ingredient_metadata_service import get_metadata
 from services.role_inference_service import build_recipe_context_from_recipe, infer_role_for_ingredient
 
 
@@ -21,6 +22,13 @@ SEASONING_ROLE_BUCKET = {
 PRODUCE_ROLE_BUCKET = {"topping", "garnish", "texture_contrast", "flavor_base", "acidity_provider"}
 STARCH_ROLE_BUCKET = {"serving_base", "structure", "binder", "thickener"}
 
+# Metadata categories that genuinely belong in the seasoning bucket.
+# Dairy, fat, protein, etc. should NOT be classified as seasoning even if
+# their inferred role is flavor_booster / richness / sauce_base.
+_SEASONING_CATEGORIES = frozenset({
+    "seasoning", "aromatic", "condiment", "sweetener", "liquid",
+})
+
 
 def _dedupe(values: List[str]) -> List[str]:
     seen = set()
@@ -34,7 +42,12 @@ def _dedupe(values: List[str]) -> List[str]:
     return result
 
 
-def infer_missing_buckets(recipe: Dict, missing_list: List[str]) -> Dict[str, List[str]]:
+def infer_missing_buckets(
+    recipe: Dict,
+    missing_list: List[str],
+    *,
+    allow_generation: bool = True,
+) -> Dict[str, List[str]]:
     missing_main: List[str] = []
     missing_seasoning: List[str] = []
     missing_produce: List[str] = []
@@ -47,7 +60,9 @@ def infer_missing_buckets(recipe: Dict, missing_list: List[str]) -> Dict[str, Li
     for item in _dedupe(missing_list):
         try:
             normalized_item = normalize_ingredient_v2(item).to_dict()
-            role_result = infer_role_for_ingredient(normalized_item, recipe_context)
+            role_result = infer_role_for_ingredient(
+                normalized_item, recipe_context, allow_generation=allow_generation,
+            )
             inferred_role = str(role_result.get("inferred_role") or "").strip().lower()
         except Exception:  # noqa: BLE001
             inferred_role = ""
@@ -57,8 +72,14 @@ def infer_missing_buckets(recipe: Dict, missing_list: List[str]) -> Dict[str, Li
             continue
 
         if inferred_role in SEASONING_ROLE_BUCKET:
-            missing_seasoning.append(item)
-            continue
+            # Guard: only truly seasoning-like categories belong here.
+            # Dairy/fat/protein items with roles like flavor_booster or
+            # richness should go to missing_other, not missing_seasoning.
+            meta_cat = (str(get_metadata(item).get("category") or "")).strip().lower()
+            if not meta_cat or meta_cat in _SEASONING_CATEGORIES:
+                missing_seasoning.append(item)
+                continue
+            # Fall through to missing_other for non-seasoning categories
 
         missing_other.append(item)
         if inferred_role in PRODUCE_ROLE_BUCKET:
@@ -78,27 +99,40 @@ def infer_missing_buckets(recipe: Dict, missing_list: List[str]) -> Dict[str, Li
     }
 
 
+_TOP_N_CANDIDATES = 20
+
+
 def rank_recipes(candidate_recipes: List[Dict], user_ingredient_set: Set[str]) -> List[Dict]:
-    ranked_results: List[Dict] = []
+    # ── Phase 1: fast match-percent scoring (no Gemini / role inference) ──
+    scored: List[tuple] = []
     for recipe in candidate_recipes:
         recipe_ingredients_norm = recipe["ingredients_norm"]
+        importance = recipe.get("importance_norm") or {}
         if recipe_ingredients_norm:
-            # Single pass: compute overlap_count and missing_items simultaneously
-            # instead of iterating recipe_ingredients_norm twice.
-            overlap_count = 0
+            matched_weight = 0.0
+            total_weight = 0.0
             missing_items: List[str] = []
             for item in recipe_ingredients_norm:
+                w = importance.get(item, 1.0)
+                total_weight += w
                 if item in user_ingredient_set:
-                    overlap_count += 1
+                    matched_weight += w
                 else:
                     missing_items.append(item)
-            match_percent = int(round((overlap_count / len(recipe_ingredients_norm)) * 100))
+            match_percent = int(round((matched_weight / total_weight) * 100)) if total_weight > 0 else 0
         else:
-            overlap_count = 0
             missing_items = []
             match_percent = 0
 
-        missing_buckets = infer_missing_buckets(recipe, missing_items)
+        scored.append((match_percent, len(missing_items), recipe["title"], recipe, missing_items))
+
+    scored.sort(key=lambda t: (-t[0], t[1], t[2]))
+    top_candidates = scored[:_TOP_N_CANDIDATES]
+
+    # ── Phase 2: role inference only for top candidates ──
+    ranked_results: List[Dict] = []
+    for match_percent, _n_miss, _title, recipe, missing_items in top_candidates:
+        missing_buckets = infer_missing_buckets(recipe, missing_items, allow_generation=False)
         missing_main = missing_buckets["missing_main"]
         missing_seasoning = missing_buckets["missing_seasoning"]
         missing_produce = missing_buckets["missing_produce"]
@@ -161,13 +195,16 @@ def build_recipe_response(recipe: Dict, user_ingredients: Optional[str]) -> Dict
         missing_other: List[str] = []
     else:
         missing_items = [item for item in recipe["ingredients_norm"] if item not in user_ingredient_set]
-        missing_buckets = infer_missing_buckets(recipe, missing_items)
+        missing_buckets = infer_missing_buckets(recipe, missing_items, allow_generation=False)
         missing_main = missing_buckets["missing_main"]
         missing_seasoning = missing_buckets["missing_seasoning"]
         missing_produce = missing_buckets["missing_produce"]
         missing_starch = missing_buckets["missing_starch"]
         missing_misc = missing_buckets["missing_misc"]
         missing_other = missing_buckets["missing_other"]
+
+    # Expose per-ingredient importance for frontend validation.
+    importance_norm = recipe.get("importance_norm") or {}
 
     return {
         "id": recipe["id"],
@@ -180,4 +217,5 @@ def build_recipe_response(recipe: Dict, user_ingredients: Optional[str]) -> Dict
         "missing_starch": missing_starch,
         "missing_misc": missing_misc,
         "missing_other": missing_other,
+        "ingredient_importance": importance_norm,
     }

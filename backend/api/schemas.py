@@ -25,6 +25,7 @@ class RemixRequest(BaseModel):
     user_ingredients: List[str]
     selected_main_subs: Dict[str, str]
     selected_seasoning_subs: Dict[str, str]
+    selected_other_subs: Optional[Dict[str, str]] = None
     preferences: Preferences
     dietary: Optional[Dietary] = None
     allergies: Optional[List[str]] = None

@@ -25,44 +25,69 @@ def _role_category(inferred_role: str) -> str:
     return "misc"
 
 
+def _get_importance(recipe: Dict, item_key: str) -> float:
+    """Get importance score for an ingredient from the recipe's importance_norm."""
+    importance_map = recipe.get("importance_norm") or {}
+    if item_key in importance_map:
+        return float(importance_map[item_key])
+    # Try normalized key
+    norm_key = _normalize_key(item_key)
+    if norm_key in importance_map:
+        return float(importance_map[norm_key])
+    return 0.5  # default mid-importance
+
+
 def _build_ranked_candidates_for_item(
     item: str,
     recipe_context,
+    recipe: Dict,
     user_ingredients: List[str],
 ) -> Tuple[str, List[Dict], str]:
     source_key = _normalize_key(item)
+    importance = _get_importance(recipe, source_key)
+
     try:
         normalized_item = normalize_ingredient_v2(item).to_dict()
-        role_result = infer_role_for_ingredient(normalized_item, recipe_context)
-        inferred_role = str(role_result.get("inferred_role") or "")
-        normalized_item["inferred_role"] = inferred_role
-        normalized_item["role_confidence"] = float(role_result.get("confidence") or 0.0)
 
+        # Candidate-first: generate candidates without role inference
         step4 = generate_substitute_candidates(
             normalized_item,
             recipe_context,
             user_inventory=list(user_ingredients or []),
             inventory_only=True,
         )
-        step5 = rank_substitute_candidates(step4, recipe_context=recipe_context)
+
+        # Rank with importance-aware thresholds
+        step5 = rank_substitute_candidates(
+            step4,
+            recipe_context=recipe_context,
+            importance=importance,
+        )
     except Exception:  # noqa: BLE001
         return source_key, [], ""
 
+    # Infer role (lightweight) for bucket classification only
+    try:
+        role_result = infer_role_for_ingredient(normalized_item, recipe_context)
+        inferred_role = str(role_result.get("inferred_role") or "")
+    except Exception:  # noqa: BLE001
+        inferred_role = ""
+
     mapped = []
     for row in step5.get("ranked_candidates", []):
+        rank_score = float(row.get("rank_score", 0.0))
+        rec_tier = str(row.get("recommendation_tier") or "acceptable")
         mapped.append(
             {
                 "to": str(row.get("candidate") or ""),
                 "reason": (
-                    f"role={row.get('inferred_role', '')}, "
-                    f"tier={row.get('recommendation_tier', 'acceptable')}, "
-                    f"score={float(row.get('rank_score', 0.0)):.2f}, "
-                    f"confidence={float(row.get('confidence', 0.0)):.2f}"
+                    f"score={rank_score:.2f}, "
+                    f"tier={rec_tier}"
                 ),
-                "quality_band": str(row.get("quality_band") or ""),
-                "recommendation_tier": str(row.get("recommendation_tier") or "acceptable"),
-                "rank_score": float(row.get("rank_score") or 0.0),
-                "confidence": float(row.get("confidence") or 0.0),
+                "recommendation_tier": rec_tier,
+                "rank_score": rank_score,
+                # TODO: confidence is kept for frontend backward compat
+                "confidence": rank_score,
             }
         )
 
@@ -79,7 +104,9 @@ def _build_v2_ranked_options(
     role_map: Dict[str, str] = {}
 
     for item in missing_items:
-        source_key, mapped, inferred_role = _build_ranked_candidates_for_item(item, recipe_context, user_ingredients)
+        source_key, mapped, inferred_role = _build_ranked_candidates_for_item(
+            item, recipe_context, recipe, user_ingredients,
+        )
         options[source_key] = mapped
         role_map[source_key] = inferred_role
 
@@ -91,7 +118,6 @@ def _build_v2_seasoning_options(
     recipe: Dict,
     user_ingredients: List[str],
 ) -> Dict[str, Dict[str, List[Dict]]]:
-    # Keep existing response shape: {source: {similar: [...], different: [...]}}
     ranked_options, _ = _build_v2_ranked_options(missing_items, recipe, user_ingredients)
     out: Dict[str, Dict[str, List[Dict]]] = {}
     for source, candidates in ranked_options.items():
@@ -125,12 +151,12 @@ def _build_other_options_and_notes(
 
         if suggested:
             other_notes[source] = (
-                f"Role-inferred as {inferred_role or 'other'} ({category}). "
+                f"Classified as {inferred_role or 'other'} ({category}). "
                 "Try one of the suggested pantry substitutes."
             )
         else:
             other_notes[source] = (
-                f"Role-inferred as {inferred_role or 'other'} ({category}), "
+                f"Classified as {inferred_role or 'other'} ({category}), "
                 "but no matching pantry substitute was found."
             )
 

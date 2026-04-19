@@ -5,17 +5,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } f
 import { Chip } from "../components/Chip";
 import { toast } from "sonner";
 import { recommend, type DietaryPayload, type PreferencesPayload } from "../../api/client";
-
-// Ingredient categories
-const CATEGORIES = {
-  "Meat & Protein": ["chicken", "beef", "pork", "eggs", "tofu", "shrimp", "turkey"],
-  "Vegetables": ["garlic", "onion", "tomato", "spinach", "broccoli", "carrot", "bell pepper", "mushroom"],
-  "Seasonings & Spices": ["salt", "pepper", "soy sauce", "basil", "oregano", "paprika", "cumin"],
-  "Dairy": ["milk", "butter", "cheese", "cream", "yogurt", "parmesan"],
-  "Grains & Pasta": ["pasta", "rice", "bread", "flour", "noodles"],
-  "Oils & Liquids": ["olive oil", "vegetable oil", "vinegar", "lemon juice"],
-  "Others": []
-};
+import { groupIngredients } from "../lib/displayGroups";
 
 const quickIngredients = [
   "chicken", "beef", "pork", "eggs", "milk", "butter", "olive oil",
@@ -56,10 +46,6 @@ function buildDietaryPayload(preferences: Preferences): DietaryPayload {
   };
 }
 
-interface CategorizedIngredients {
-  [category: string]: string[];
-}
-
 export default function Home() {
   const navigate = useNavigate();
   const [fridgeIngredients, setFridgeIngredients] = useState<string[]>([]);
@@ -87,30 +73,7 @@ export default function Home() {
     }
   };
 
-  // Categorize ingredients
-  const categorizeIngredients = (): CategorizedIngredients => {
-    const categorized: CategorizedIngredients = {};
-    
-    fridgeIngredients.forEach(ingredient => {
-      let found = false;
-      for (const [category, items] of Object.entries(CATEGORIES)) {
-        if (items.includes(ingredient.toLowerCase())) {
-          if (!categorized[category]) categorized[category] = [];
-          categorized[category].push(ingredient);
-          found = true;
-          break;
-        }
-      }
-      if (!found) {
-        if (!categorized["Others"]) categorized["Others"] = [];
-        categorized["Others"].push(ingredient);
-      }
-    });
-    
-    return categorized;
-  };
-
-  const categorizedIngredients = categorizeIngredients();
+  const categorizedIngredients = groupIngredients(fridgeIngredients);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-orange-50">
@@ -158,11 +121,11 @@ export default function Home() {
               </div>
             ) : (
               <div className="space-y-6">
-                {Object.entries(categorizedIngredients).map(([category, items]) => (
-                  <div key={category}>
+                {categorizedIngredients.map(({ group, items }) => (
+                  <div key={group}>
                     <div className="flex items-center justify-between mb-3">
                       <h3 className="text-sm font-bold text-gray-800 uppercase tracking-wide">
-                        {category} ({items.length})
+                        {group} ({items.length})
                       </h3>
                     </div>
                     <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2">
@@ -293,41 +256,17 @@ function IngredientsModal({ open, onClose, ingredients, onSave }: IngredientsMod
     onClose();
   };
 
-  // Categorize local ingredients
-  const categorizeLocalIngredients = (): CategorizedIngredients => {
-    const categorized: CategorizedIngredients = {};
-    
-    localIngredients.forEach(ingredient => {
-      let found = false;
-      for (const [category, items] of Object.entries(CATEGORIES)) {
-        if (items.includes(ingredient.toLowerCase())) {
-          if (!categorized[category]) categorized[category] = [];
-          categorized[category].push(ingredient);
-          found = true;
-          break;
-        }
-      }
-      if (!found) {
-        if (!categorized["Others"]) categorized["Others"] = [];
-        categorized["Others"].push(ingredient);
-      }
-    });
-    
-    return categorized;
-  };
-
-  const categorizedLocal = categorizeLocalIngredients();
+  const categorizedLocal = groupIngredients(localIngredients);
 
   // Filter ingredients based on search query
-  const filteredCategorized = Object.entries(categorizedLocal).reduce((acc, [category, items]) => {
-    const filtered = items.filter(ingredient => 
-      ingredient.toLowerCase().includes(searchQuery.toLowerCase())
-    );
-    if (filtered.length > 0) {
-      acc[category] = filtered;
-    }
-    return acc;
-  }, {} as CategorizedIngredients);
+  const filteredCategorized = categorizedLocal
+    .map(({ group, items }) => ({
+      group,
+      items: items.filter((ingredient) =>
+        ingredient.toLowerCase().includes(searchQuery.toLowerCase())
+      ),
+    }))
+    .filter(({ items }) => items.length > 0);
 
   return (
     <Dialog open={open} onOpenChange={onClose}>
@@ -375,14 +314,14 @@ function IngredientsModal({ open, onClose, ingredients, onSave }: IngredientsMod
           <div>
             {localIngredients.length === 0 ? (
               <p className="text-gray-500 text-sm text-center py-8">No ingredients added yet</p>
-            ) : Object.keys(filteredCategorized).length === 0 ? (
+            ) : filteredCategorized.length === 0 ? (
               <p className="text-gray-500 text-sm text-center py-8">No ingredients match your search</p>
             ) : (
               <div className="space-y-4">
-                {Object.entries(filteredCategorized).map(([category, items]) => (
-                  <div key={category} className="border rounded-lg p-4 bg-gray-50">
+                {filteredCategorized.map(({ group, items }) => (
+                  <div key={group} className="border rounded-lg p-4 bg-gray-50">
                     <h4 className="text-xs font-bold text-gray-700 uppercase tracking-wide mb-3">
-                      {category} ({items.length})
+                      {group} ({items.length})
                     </h4>
                     <div className="flex flex-wrap gap-2">
                       {items.map((ingredient) => (

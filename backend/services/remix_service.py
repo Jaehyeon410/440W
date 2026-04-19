@@ -86,11 +86,14 @@ def _build_fallback_pairs(
 
 
 def _compute_changed_steps(original_steps: List[str], edited_steps: List[str]) -> List[int]:
-    return [
-        idx
-        for idx, (original, edited) in enumerate(zip(original_steps, edited_steps))
-        if str(original) != str(edited)
-    ]
+    max_len = max(len(original_steps), len(edited_steps))
+    changed = []
+    for idx in range(max_len):
+        orig = str(original_steps[idx]) if idx < len(original_steps) else ""
+        edit = str(edited_steps[idx]) if idx < len(edited_steps) else ""
+        if orig != edit:
+            changed.append(idx)
+    return changed
 
 
 def _join_non_empty(parts: List[str]) -> str:
@@ -173,10 +176,11 @@ def _build_v2_failure_response(
     original_steps: List[str],
     fallback_main: List[Dict[str, str]],
     fallback_seasoning: List[Dict[str, str]],
+    fallback_other: List[Dict[str, str]] | None = None,
 ) -> Dict[str, Any]:
     substitution_explanations = {
         f"{item['from']} -> {item['to']}": item["reason"]
-        for item in (fallback_main + fallback_seasoning)
+        for item in (fallback_main + fallback_seasoning + (fallback_other or []))
     }
 
     return {
@@ -184,6 +188,7 @@ def _build_v2_failure_response(
         "substitutions": {
             "main": fallback_main,
             "seasoning": fallback_seasoning,
+            "other": fallback_other or [],
         },
         "flavor_change_summary": "Unable to apply v2 rewrite safely. Original steps were preserved.",
         "edited_steps": original_steps,
@@ -192,6 +197,7 @@ def _build_v2_failure_response(
         "method_adjustment_notes": {},
         "step_tips": [generate_fallback_tip(s) for s in original_steps],
         "missing_remaining": [],
+        "rewrite_mode": "fallback_original",
     }
 
 
@@ -213,7 +219,22 @@ def build_remix_response(payload: RemixRequest, recipe: Dict[str, Any]) -> Dict[
 
     main_pairs = [{"from": source, "to": target} for source, target in payload.selected_main_subs.items()]
     seasoning_pairs = [{"from": source, "to": target} for source, target in payload.selected_seasoning_subs.items()]
+    other_pairs = [
+        {"from": source, "to": target}
+        for source, target in (payload.selected_other_subs or {}).items()
+    ]
     fallback_main, fallback_seasoning = _build_fallback_pairs(main_pairs, seasoning_pairs, user_items_norm)
+    fallback_other = [
+        {
+            "from": pair["from"],
+            "to": pair["to"],
+            "reason": _single_sentence(
+                _deterministic_main_reason(pair["from"], pair["to"], user_items_norm),
+                "Chosen to keep a compatible role with ingredients from your fridge.",
+            ),
+        }
+        for pair in other_pairs
+    ]
 
     original_steps = normalize_original_steps(recipe.get("directions", []))
 
@@ -221,7 +242,7 @@ def build_remix_response(payload: RemixRequest, recipe: Dict[str, Any]) -> Dict[
         from ingredient_normalizer_v2 import normalize_ingredient_v2
         from services.adjustment_metadata_service import build_adjustments_for_candidates
         from services.role_inference_service import build_recipe_context_from_recipe, infer_role_for_ingredient
-        from services.step_rewrite_service import rewrite_recipe_steps
+        from services.step_rewrite_service import llm_rewrite_recipe_steps
         from services.substitute_generation_service import generate_substitute_candidates
         from services.substitute_ranking_service import rank_substitute_candidates
 
@@ -232,7 +253,7 @@ def build_remix_response(payload: RemixRequest, recipe: Dict[str, Any]) -> Dict[
         adjustment_bundles: List[Dict[str, Any]] = []
         reason_by_pair: Dict[str, str] = {}
 
-        all_pairs = main_pairs + seasoning_pairs
+        all_pairs = main_pairs + seasoning_pairs + other_pairs
         for pair in all_pairs:
             source = pair["from"]
             target = pair["to"]
@@ -308,15 +329,18 @@ def build_remix_response(payload: RemixRequest, recipe: Dict[str, Any]) -> Dict[
             )
             reason_by_pair[pair_key] = _v2_reason_for_selected(source, target, ranked_candidates, fallback_pair_reason)
 
-        step7 = rewrite_recipe_steps(
+        # Step 7: LLM-first rewrite when substitutions exist
+        sub_pairs = [{"from": p["from"], "to": p["to"]} for p in all_pairs]
+        llm_result = llm_rewrite_recipe_steps(
+            recipe_title=recipe.get("title", ""),
+            original_ingredients=recipe.get("ingredients_raw", []),
             original_steps=original_steps,
-            selected_substitutions=selected_candidates,
-            adjustment_metadata_list=adjustment_bundles,
+            selected_substitutions=sub_pairs,
+            adjustment_metadata=selected_adjustments,
         )
-
-        edited_steps = list(step7.get("rewritten_steps") or original_steps)
-        if len(edited_steps) != len(original_steps):
-            return _build_v2_failure_response(payload, original_steps, fallback_main, fallback_seasoning)
+        edited_steps = llm_result["edited_steps"]
+        rewrite_mode = llm_result["rewrite_mode"]
+        llm_fallback_reason = llm_result.get("fallback_reason", "")
 
         changed_steps = _compute_changed_steps(original_steps, edited_steps)
 
@@ -328,18 +352,12 @@ def build_remix_response(payload: RemixRequest, recipe: Dict[str, Any]) -> Dict[
             if note:
                 method_adjustment_notes[key] = note
 
-        raw_warnings = [str(w).strip() for w in step7.get("rewrite_warnings", []) if str(w).strip()]
         step_tips = [generate_fallback_tip(step) for step in edited_steps]
-        if raw_warnings:
-            for idx in changed_steps[:2]:
-                if 0 <= idx < len(step_tips):
-                    step_tips[idx] = _single_sentence(raw_warnings[0], step_tips[idx])
 
-        flavor_change_summary = _v2_flavor_summary(selected_adjustments, str(step7.get("rewrite_mode") or ""))
-        fallback_reason = str(step7.get("fallback_reason") or "").strip()
-        if fallback_reason:
+        flavor_change_summary = _v2_flavor_summary(selected_adjustments, rewrite_mode)
+        if llm_fallback_reason:
             flavor_change_summary = _single_sentence(
-                f"{flavor_change_summary} {fallback_reason}",
+                f"{flavor_change_summary} {llm_fallback_reason}",
                 flavor_change_summary,
             )
 
@@ -366,11 +384,21 @@ def build_remix_response(payload: RemixRequest, recipe: Dict[str, Any]) -> Dict[
                 "reason": substitution_explanations.get(key, item["reason"]),
             })
 
+        safe_other = []
+        for item in fallback_other:
+            key = f"{item['from']} -> {item['to']}"
+            safe_other.append({
+                "from": item["from"],
+                "to": item["to"],
+                "reason": substitution_explanations.get(key, item["reason"]),
+            })
+
         return {
             "recipe_id": payload.recipe_id,
             "substitutions": {
                 "main": safe_main,
                 "seasoning": safe_seasoning,
+                "other": safe_other,
             },
             "flavor_change_summary": flavor_change_summary,
             "edited_steps": edited_steps,
@@ -379,8 +407,9 @@ def build_remix_response(payload: RemixRequest, recipe: Dict[str, Any]) -> Dict[
             "method_adjustment_notes": method_adjustment_notes,
             "step_tips": step_tips,
             "missing_remaining": [],
+            "rewrite_mode": rewrite_mode,
         }
 
     except Exception:
         # Conservative v2-only failure handling: preserve original steps and contract.
-        return _build_v2_failure_response(payload, original_steps, fallback_main, fallback_seasoning)
+        return _build_v2_failure_response(payload, original_steps, fallback_main, fallback_seasoning, fallback_other)

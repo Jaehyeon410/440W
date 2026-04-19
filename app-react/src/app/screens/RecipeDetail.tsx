@@ -95,6 +95,7 @@ export default function RecipeDetail() {
 
   const [selectedMainSub, setSelectedMainSub] = useState<Record<string, string>>({});
   const [selectedSeasoningSub, setSelectedSeasoningSub] = useState<Record<string, string>>({});
+  const [selectedOtherSub, setSelectedOtherSub] = useState<Record<string, string>>({});
   const [showSubModal, setShowSubModal] = useState<string | null>(null);
 
   const [userIngredients, setUserIngredients] = useState<string[]>(getStoredInventory());
@@ -184,6 +185,7 @@ export default function RecipeDetail() {
       setRecipe(refreshedDetail);
       setSelectedMainSub({});
       setSelectedSeasoningSub({});
+      setSelectedOtherSub({});
 
       const preferences = getStoredPreferences();
       const dietary = getStoredDietary();
@@ -215,7 +217,80 @@ export default function RecipeDetail() {
     ...recipe.missing_other,
   ];
 
+  const getRemixBlockReason = (): string | null => {
+    const findSelected = (item: string, subs: Record<string, string>) => {
+      if (subs[item]) return true;
+      const norm = normalizeLookupKey(item);
+      return Object.keys(subs).some((k) => normalizeLookupKey(k) === norm);
+    };
+
+    const totalIngredients = recipe.ingredients.length;
+    if (totalIngredients === 0) return null;
+
+    // Unsubstituted missing ingredients per category
+    const unsubMain = recipe.missing_main.filter((item) => !findSelected(item, selectedMainSub));
+    const unsubSeasoning = recipe.missing_seasoning.filter((item) => !findSelected(item, selectedSeasoningSub));
+    const unsubOther = recipe.missing_other.filter((item) => !findSelected(item, selectedOtherSub));
+    const totalMissing = unsubMain.length + unsubSeasoning.length + unsubOther.length;
+
+    // --- Rule 1: missing_ratio >= 0.60 ---
+    const missingRatio = totalMissing / totalIngredients;
+    if (missingRatio >= 0.60) {
+      return "This recipe is missing too many important ingredients to generate reliable final steps.";
+    }
+
+    // --- Rule 2: weighted_missing_ratio >= 0.45 (importance-aware) ---
+    const importance = recipe.ingredient_importance;
+    if (importance && Object.keys(importance).length > 0) {
+      const allMissing = [...unsubMain, ...unsubSeasoning, ...unsubOther];
+
+      const lookupImportance = (name: string): number | undefined => {
+        if (importance[name] != null) return importance[name];
+        const norm = normalizeLookupKey(name);
+        const key = Object.keys(importance).find((k) => normalizeLookupKey(k) === norm);
+        return key != null ? importance[key] : undefined;
+      };
+
+      const totalWeight = Object.values(importance).reduce((s, v) => s + v, 0);
+      if (totalWeight > 0) {
+        const missingWeight = allMissing.reduce((s, item) => s + (lookupImportance(item) ?? 0.5), 0);
+        const weightedRatio = missingWeight / totalWeight;
+        if (weightedRatio >= 0.45) {
+          return "This recipe is missing too many important ingredients to generate reliable final steps.";
+        }
+      }
+    }
+
+    // --- Rule 3: missing main ingredient with weak best substitute (< 0.75) ---
+    if (unsubMain.length > 0) {
+      return "This recipe is missing too many important ingredients to generate reliable final steps.";
+    }
+    if (substitutions) {
+      for (const mainItem of recipe.missing_main) {
+        if (findSelected(mainItem, selectedMainSub)) {
+          const selectedTo = selectedMainSub[mainItem]
+            ?? Object.entries(selectedMainSub).find(([k]) => normalizeLookupKey(k) === normalizeLookupKey(mainItem))?.[1];
+          if (!selectedTo) continue;
+
+          const candidates = getMainOptionsByMissingItem(substitutions, mainItem);
+          const selected = candidates.find((c) => normalizeLookupKey(c.to) === normalizeLookupKey(selectedTo));
+          if (selected && selected.confidence != null && selected.confidence < 0.75) {
+            return "A key ingredient substitute has low compatibility. This recipe may not turn out well.";
+          }
+        }
+      }
+    }
+
+    return null;
+  };
+
+  const remixBlockReason = getRemixBlockReason();
+
   const handleGenerateFinal = async () => {
+    if (remixBlockReason) {
+      toast.error(remixBlockReason);
+      return;
+    }
     setIsFinalLoading(true);
     try {
       const preferences = JSON.parse(localStorage.getItem("preferencesPayload") || "null") || {
@@ -230,6 +305,7 @@ export default function RecipeDetail() {
         user_ingredients: userIngredients,
         selected_main_subs: selectedMainSub,
         selected_seasoning_subs: selectedSeasoningSub,
+        selected_other_subs: selectedOtherSub,
         preferences,
       });
 
@@ -554,7 +630,31 @@ export default function RecipeDetail() {
               </section>
             )}
 
+            {/* Other Options */}
+            {substitutions && Object.keys(substitutions.other_options || {}).length > 0 && (
+              <section className="mb-8">
+                <h2 className="text-lg font-semibold text-gray-900 mb-4">Other ingredient options</h2>
+                <div className="space-y-3">
+                  {Object.entries(substitutions.other_options).map(([missingItem, entry]) => (
+                    <OtherOptionCard
+                      key={missingItem}
+                      missingItem={missingItem}
+                      entry={entry}
+                      selected={selectedOtherSub[missingItem] ?? null}
+                      onSelect={(to) => setSelectedOtherSub({ ...selectedOtherSub, [missingItem]: to })}
+                    />
+                  ))}
+                </div>
+              </section>
+            )}
+
             {/* Generate Final Recipe */}
+            {remixBlockReason && (
+              <div className="mb-3 p-3 bg-red-50 border border-red-200 rounded-lg">
+                <p className="text-sm font-medium text-red-800">This recipe cannot be made with the current ingredients.</p>
+                <p className="text-sm text-red-600 mt-1">{remixBlockReason}</p>
+              </div>
+            )}
             <div className="flex gap-3">
               <button
                 onClick={() => navigate("/results")}
@@ -564,23 +664,16 @@ export default function RecipeDetail() {
               </button>
               <button
                 onClick={handleGenerateFinal}
-                disabled={isFinalLoading}
-                className="flex-1 py-3 bg-orange-600 text-white rounded-lg font-medium hover:bg-orange-700 transition-colors"
+                disabled={isFinalLoading || !!remixBlockReason}
+                className={`flex-1 py-3 rounded-lg font-medium transition-colors ${
+                  remixBlockReason
+                    ? "bg-gray-300 text-gray-500 cursor-not-allowed"
+                    : "bg-orange-600 text-white hover:bg-orange-700"
+                }`}
               >
                 {isFinalLoading ? "Generating..." : "Generate Final Steps"}
               </button>
             </div>
-
-            {substitutions && Object.keys(substitutions.other_options || {}).length > 0 && (
-              <section className="mt-6 bg-white border rounded-lg p-4">
-                <h3 className="font-semibold text-gray-900 mb-3">Other ingredient options</h3>
-                <div className="space-y-3">
-                  {Object.entries(substitutions.other_options).map(([missingItem, entry]) => (
-                    <OtherOptionCard key={missingItem} missingItem={missingItem} entry={entry} />
-                  ))}
-                </div>
-              </section>
-            )}
 
             {substitutions && Object.keys(substitutions.other_notes).length > 0 && (
               <section className="mt-6 bg-yellow-50 border border-yellow-200 rounded-lg p-4">
@@ -653,7 +746,17 @@ function SeasoningOptionCard({ option, selected, onSelect }: SeasoningOptionCard
   );
 }
 
-function OtherOptionCard({ missingItem, entry }: { missingItem: string; entry: OtherOptionsEntry }) {
+function OtherOptionCard({
+  missingItem,
+  entry,
+  selected,
+  onSelect,
+}: {
+  missingItem: string;
+  entry: OtherOptionsEntry;
+  selected: string | null;
+  onSelect: (to: string) => void;
+}) {
   return (
     <div className="border rounded-lg p-4 bg-white">
       <div className="flex items-center justify-between mb-2">
@@ -665,13 +768,33 @@ function OtherOptionCard({ missingItem, entry }: { missingItem: string; entry: O
 
       {entry.suggested.length > 0 ? (
         <div className="space-y-2">
-          {entry.suggested.map((option) => (
-            <div key={option.to} className="p-3 border border-gray-200 rounded-md">
-              <p className="text-sm font-medium text-gray-900">{option.to}</p>
-              <p className="text-xs text-gray-700">{option.reason}</p>
-              <p className="text-xs text-gray-500 mt-1">Confidence: {Math.round(option.confidence * 100)}%</p>
-            </div>
-          ))}
+          {entry.suggested.map((option) => {
+            const isSelected = selected === option.to;
+            return (
+              <div
+                key={option.to}
+                className={`p-3 border rounded-md cursor-pointer transition-all ${
+                  isSelected
+                    ? "border-orange-500 bg-orange-50"
+                    : "border-gray-200 hover:border-orange-300"
+                }`}
+                onClick={() => onSelect(option.to)}
+              >
+                <p className="text-sm font-medium text-gray-900">{option.to}</p>
+                <p className="text-xs text-gray-700">{option.reason}</p>
+                <p className="text-xs text-gray-500 mt-1">Confidence: {Math.round(option.confidence * 100)}%</p>
+                <button
+                  className={`w-full mt-2 py-1.5 rounded-lg text-sm font-medium transition-colors ${
+                    isSelected
+                      ? "bg-orange-600 text-white"
+                      : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+                  }`}
+                >
+                  {isSelected ? "Selected" : "Use this"}
+                </button>
+              </div>
+            );
+          })}
         </div>
       ) : (
         <div className="p-3 bg-gray-50 border border-gray-200 rounded-md">

@@ -179,9 +179,10 @@
   "lemon juice": {
     "parent": "lemon",
     "category": "liquid",
-    "primary_function": "acid_source",
+    "primary_function": "acidity_provider",
     "possible_functions": [
-      "acid_source",
+      "acidity_provider",
+      "flavor_booster",
       "seasoning"
     ],
     "properties": {
@@ -440,11 +441,12 @@
     "source": "manual"
   },
   "lime juice": {
-    "parent": null,
+    "parent": "lime",
     "category": "liquid",
-    "primary_function": "acid_source",
+    "primary_function": "acidity_provider",
     "possible_functions": [
-      "acid_source",
+      "acidity_provider",
+      "flavor_booster",
       "seasoning"
     ],
     "properties": {
@@ -457,7 +459,11 @@
     "texture": "liquid",
     "flavor_strength": "strong",
     "special_capabilities": [],
-    "direct_substitutes": [],
+    "direct_substitutes": [
+      "lemon juice",
+      "lemon",
+      "lime"
+    ],
     "source": "manual"
   },
   "vanilla extract": {
@@ -466,7 +472,7 @@
     "primary_function": "seasoning",
     "possible_functions": [
       "seasoning",
-      "savory_component"
+      "flavor_booster"
     ],
     "properties": {
       "fat": "low",
@@ -475,7 +481,7 @@
       "acidity": "low",
       "saltiness": "low"
     },
-    "texture": "solid",
+    "texture": "liquid",
     "flavor_strength": "strong",
     "special_capabilities": [],
     "direct_substitutes": [],
@@ -506,45 +512,62 @@
   },
   "onions": {
     "parent": null,
-    "category": "vegetable",
-    "primary_function": "bulk_vegetable",
+    "category": "aromatic",
+    "primary_function": "flavor_base",
     "possible_functions": [
+      "aromatic",
       "bulk_vegetable",
-      "body_provider"
+      "fresh_component"
     ],
     "properties": {
       "fat": "low",
       "moisture": "medium",
-      "sweetness": "low",
+      "sweetness": "medium",
       "acidity": "low",
       "saltiness": "low"
     },
     "texture": "solid",
-    "flavor_strength": "mild",
-    "special_capabilities": [],
-    "direct_substitutes": [],
-    "source": "manual"
+    "flavor_strength": "strong",
+    "special_capabilities": [
+      "caramelizable",
+      "roastable"
+    ],
+    "direct_substitutes": [
+      "shallots",
+      "leeks",
+      "garlic",
+      "scallions"
+    ],
+    "source": "gemini_generated"
   },
   "dijon mustard": {
     "parent": null,
-    "category": "vegetable",
-    "primary_function": "bulk_vegetable",
+    "category": "condiment",
+    "primary_function": "savory_component",
     "possible_functions": [
-      "bulk_vegetable",
-      "body_provider"
+      "acid_source",
+      "flavor_base",
+      "emulsifier"
     ],
     "properties": {
       "fat": "low",
       "moisture": "medium",
       "sweetness": "low",
-      "acidity": "low",
-      "saltiness": "low"
+      "acidity": "high",
+      "saltiness": "medium"
     },
-    "texture": "solid",
-    "flavor_strength": "mild",
-    "special_capabilities": [],
-    "direct_substitutes": [],
-    "source": "manual"
+    "texture": "paste",
+    "flavor_strength": "medium",
+    "special_capabilities": [
+      "emulsifier",
+      "none"
+    ],
+    "direct_substitutes": [
+      "whole grain mustard",
+      "honey mustard",
+      "yellow mustard"
+    ],
+    "source": "gemini_generated"
   },
   "whole milk": {
     "parent": null,
@@ -569,45 +592,59 @@
   },
   "baking powder": {
     "parent": null,
-    "category": "vegetable",
-    "primary_function": "bulk_vegetable",
+    "category": "seasoning",
+    "primary_function": "structure",
     "possible_functions": [
-      "bulk_vegetable",
-      "body_provider"
+      "acid_source",
+      "seasoning"
     ],
     "properties": {
       "fat": "low",
-      "moisture": "medium",
+      "moisture": "low",
       "sweetness": "low",
-      "acidity": "low",
+      "acidity": "medium",
       "saltiness": "low"
     },
-    "texture": "solid",
+    "texture": "powder",
     "flavor_strength": "mild",
-    "special_capabilities": [],
-    "direct_substitutes": [],
-    "source": "manual"
+    "special_capabilities": [
+      "none"
+    ],
+    "direct_substitutes": [
+      "baking soda"
+    ],
+    "source": "gemini_generated"
   },
   "egg yolks": {
     "parent": null,
-    "category": "vegetable",
-    "primary_function": "bulk_vegetable",
+    "category": "protein",
+    "primary_function": "binder",
     "possible_functions": [
-      "bulk_vegetable",
-      "body_provider"
+      "structure",
+      "fat_source",
+      "emulsifier"
     ],
     "properties": {
-      "fat": "low",
+      "fat": "medium",
       "moisture": "medium",
       "sweetness": "low",
       "acidity": "low",
       "saltiness": "low"
     },
-    "texture": "solid",
+    "texture": "creamy",
     "flavor_strength": "mild",
-    "special_capabilities": [],
-    "direct_substitutes": [],
-    "source": "manual"
+    "special_capabilities": [
+      "emulsifier",
+      "gelatinizing",
+      "whippable"
+    ],
+    "direct_substitutes": [
+      "egg whites",
+      "whole egg",
+      "aquafaba",
+      "silken tofu"
+    ],
+    "source": "gemini_generated"
   },
   "cumin": {
     "parent": null,
@@ -632,32 +669,40 @@
   },
   "shallots": {
     "parent": null,
-    "category": "vegetable",
-    "primary_function": "bulk_vegetable",
+    "category": "aromatic",
+    "primary_function": "flavor_base",
     "possible_functions": [
-      "bulk_vegetable",
-      "body_provider"
+      "aromatic",
+      "savory_component",
+      "flavor_base"
     ],
     "properties": {
       "fat": "low",
       "moisture": "medium",
-      "sweetness": "low",
+      "sweetness": "medium",
       "acidity": "low",
       "saltiness": "low"
     },
-    "texture": "solid",
-    "flavor_strength": "mild",
-    "special_capabilities": [],
-    "direct_substitutes": [],
-    "source": "manual"
+    "texture": "soft",
+    "flavor_strength": "medium",
+    "special_capabilities": [
+      "caramelizable",
+      "none"
+    ],
+    "direct_substitutes": [
+      "onions",
+      "garlic",
+      "leeks"
+    ],
+    "source": "gemini_generated"
   },
   "parsley": {
     "parent": null,
-    "category": "vegetable",
-    "primary_function": "bulk_vegetable",
+    "category": "garnish",
+    "primary_function": "fresh_component",
     "possible_functions": [
-      "bulk_vegetable",
-      "body_provider"
+      "garnish",
+      "seasoning"
     ],
     "properties": {
       "fat": "low",
@@ -666,40 +711,57 @@
       "acidity": "low",
       "saltiness": "low"
     },
-    "texture": "solid",
-    "flavor_strength": "mild",
-    "special_capabilities": [],
-    "direct_substitutes": [],
-    "source": "manual"
+    "texture": "soft",
+    "flavor_strength": "medium",
+    "special_capabilities": [
+      "none"
+    ],
+    "direct_substitutes": [
+      "cilantro",
+      "mint",
+      "chives",
+      "basil"
+    ],
+    "source": "gemini_generated"
   },
   "red onion": {
     "parent": null,
     "category": "vegetable",
-    "primary_function": "bulk_vegetable",
+    "primary_function": "aromatic",
     "possible_functions": [
-      "bulk_vegetable",
-      "body_provider"
+      "flavor_base",
+      "fresh_component",
+      "garnish",
+      "bulk_vegetable"
     ],
     "properties": {
       "fat": "low",
       "moisture": "medium",
-      "sweetness": "low",
+      "sweetness": "medium",
       "acidity": "low",
       "saltiness": "low"
     },
     "texture": "solid",
-    "flavor_strength": "mild",
-    "special_capabilities": [],
-    "direct_substitutes": [],
-    "source": "manual"
+    "flavor_strength": "medium",
+    "special_capabilities": [
+      "caramelizable",
+      "roastable"
+    ],
+    "direct_substitutes": [
+      "yellow onion",
+      "shallot",
+      "white onion"
+    ],
+    "source": "gemini_generated"
   },
   "cilantro": {
     "parent": null,
-    "category": "vegetable",
-    "primary_function": "bulk_vegetable",
+    "category": "aromatic",
+    "primary_function": "fresh_component",
     "possible_functions": [
-      "bulk_vegetable",
-      "body_provider"
+      "aromatic",
+      "garnish",
+      "seasoning"
     ],
     "properties": {
       "fat": "low",
@@ -708,11 +770,16 @@
       "acidity": "low",
       "saltiness": "low"
     },
-    "texture": "solid",
-    "flavor_strength": "mild",
-    "special_capabilities": [],
-    "direct_substitutes": [],
-    "source": "manual"
+    "texture": "soft",
+    "flavor_strength": "medium",
+    "special_capabilities": [
+      "none"
+    ],
+    "direct_substitutes": [
+      "parsley",
+      "coriander leaves"
+    ],
+    "source": "gemini_generated"
   },
   "red wine vinegar": {
     "parent": null,
@@ -740,21 +807,30 @@
     "category": "vegetable",
     "primary_function": "bulk_vegetable",
     "possible_functions": [
-      "bulk_vegetable",
-      "body_provider"
+      "aromatic",
+      "flavor_base",
+      "sweetener",
+      "fresh_component"
     ],
     "properties": {
       "fat": "low",
-      "moisture": "medium",
-      "sweetness": "low",
+      "moisture": "high",
+      "sweetness": "medium",
       "acidity": "low",
       "saltiness": "low"
     },
     "texture": "solid",
-    "flavor_strength": "mild",
-    "special_capabilities": [],
-    "direct_substitutes": [],
-    "source": "manual"
+    "flavor_strength": "medium",
+    "special_capabilities": [
+      "caramelizable",
+      "roastable"
+    ],
+    "direct_substitutes": [
+      "parsnips",
+      "sweet potatoes",
+      "turnips"
+    ],
+    "source": "gemini_generated"
   },
   "egg": {
     "parent": null,
@@ -827,24 +903,31 @@
   },
   "soy sauce": {
     "parent": null,
-    "category": "vegetable",
-    "primary_function": "bulk_vegetable",
+    "category": "sauce_component",
+    "primary_function": "savory_component",
     "possible_functions": [
-      "bulk_vegetable",
-      "body_provider"
+      "seasoning",
+      "flavor_base",
+      "liquid_base"
     ],
     "properties": {
       "fat": "low",
-      "moisture": "medium",
+      "moisture": "high",
       "sweetness": "low",
-      "acidity": "low",
-      "saltiness": "low"
+      "acidity": "medium",
+      "saltiness": "high"
     },
-    "texture": "solid",
-    "flavor_strength": "mild",
-    "special_capabilities": [],
-    "direct_substitutes": [],
-    "source": "manual"
+    "texture": "liquid",
+    "flavor_strength": "strong",
+    "special_capabilities": [
+      "none"
+    ],
+    "direct_substitutes": [
+      "tamari",
+      "coconut aminos",
+      "liquid aminos"
+    ],
+    "source": "gemini_generated"
   },
   "shallot": {
     "parent": null,
@@ -871,11 +954,12 @@
   },
   "rosemary": {
     "parent": null,
-    "category": "vegetable",
-    "primary_function": "bulk_vegetable",
+    "category": "aromatic",
+    "primary_function": "aromatic",
     "possible_functions": [
-      "bulk_vegetable",
-      "body_provider"
+      "seasoning",
+      "fresh_component",
+      "garnish"
     ],
     "properties": {
       "fat": "low",
@@ -885,31 +969,47 @@
       "saltiness": "low"
     },
     "texture": "solid",
-    "flavor_strength": "mild",
-    "special_capabilities": [],
-    "direct_substitutes": [],
-    "source": "manual"
+    "flavor_strength": "strong",
+    "special_capabilities": [
+      "none"
+    ],
+    "direct_substitutes": [
+      "thyme",
+      "oregano",
+      "marjoram",
+      "sage"
+    ],
+    "source": "gemini_generated"
   },
   "mayonnaise": {
     "parent": null,
-    "category": "vegetable",
-    "primary_function": "bulk_vegetable",
+    "category": "condiment",
+    "primary_function": "fat_source",
     "possible_functions": [
-      "bulk_vegetable",
-      "body_provider"
+      "sauce_base",
+      "binder",
+      "emulsifier"
     ],
     "properties": {
-      "fat": "low",
+      "fat": "high",
       "moisture": "medium",
       "sweetness": "low",
-      "acidity": "low",
-      "saltiness": "low"
+      "acidity": "medium",
+      "saltiness": "medium"
     },
-    "texture": "solid",
-    "flavor_strength": "mild",
-    "special_capabilities": [],
-    "direct_substitutes": [],
-    "source": "manual"
+    "texture": "creamy",
+    "flavor_strength": "medium",
+    "special_capabilities": [
+      "emulsifier",
+      "none"
+    ],
+    "direct_substitutes": [
+      "vegan mayonnaise",
+      "aioli",
+      "sour cream",
+      "yogurt"
+    ],
+    "source": "gemini_generated"
   },
   "milk": {
     "parent": null,
@@ -934,45 +1034,58 @@
   },
   "baking soda": {
     "parent": null,
-    "category": "vegetable",
-    "primary_function": "bulk_vegetable",
+    "category": "seasoning",
+    "primary_function": "structure",
     "possible_functions": [
-      "bulk_vegetable",
-      "body_provider"
+      "acid_source",
+      "seasoning"
     ],
     "properties": {
       "fat": "low",
-      "moisture": "medium",
+      "moisture": "low",
       "sweetness": "low",
-      "acidity": "low",
+      "acidity": "medium",
       "saltiness": "low"
     },
-    "texture": "solid",
+    "texture": "powder",
     "flavor_strength": "mild",
-    "special_capabilities": [],
-    "direct_substitutes": [],
-    "source": "manual"
+    "special_capabilities": [
+      "none"
+    ],
+    "direct_substitutes": [
+      "baking powder",
+      "potassium bicarbonate"
+    ],
+    "source": "gemini_generated"
   },
   "cornstarch": {
     "parent": null,
-    "category": "vegetable",
-    "primary_function": "bulk_vegetable",
+    "category": "starch",
+    "primary_function": "binder",
     "possible_functions": [
-      "bulk_vegetable",
-      "body_provider"
+      "thickening",
+      "structure"
     ],
     "properties": {
       "fat": "low",
-      "moisture": "medium",
+      "moisture": "low",
       "sweetness": "low",
       "acidity": "low",
       "saltiness": "low"
     },
-    "texture": "solid",
+    "texture": "powder",
     "flavor_strength": "mild",
-    "special_capabilities": [],
-    "direct_substitutes": [],
-    "source": "manual"
+    "special_capabilities": [
+      "gelatinizing",
+      "thickening"
+    ],
+    "direct_substitutes": [
+      "arrowroot powder",
+      "tapioca starch",
+      "potato starch",
+      "all-purpose flour"
+    ],
+    "source": "gemini_generated"
   },
   "red bell pepper": {
     "parent": null,
@@ -997,11 +1110,12 @@
   },
   "chives": {
     "parent": null,
-    "category": "vegetable",
-    "primary_function": "bulk_vegetable",
+    "category": "aromatic",
+    "primary_function": "fresh_component",
     "possible_functions": [
-      "bulk_vegetable",
-      "body_provider"
+      "aromatic",
+      "garnish",
+      "savory_component"
     ],
     "properties": {
       "fat": "low",
@@ -1010,19 +1124,26 @@
       "acidity": "low",
       "saltiness": "low"
     },
-    "texture": "solid",
-    "flavor_strength": "mild",
-    "special_capabilities": [],
-    "direct_substitutes": [],
-    "source": "manual"
+    "texture": "soft",
+    "flavor_strength": "medium",
+    "special_capabilities": [
+      "none"
+    ],
+    "direct_substitutes": [
+      "scallions",
+      "green onions",
+      "garlic chives"
+    ],
+    "source": "gemini_generated"
   },
   "green onions": {
     "parent": null,
     "category": "vegetable",
-    "primary_function": "bulk_vegetable",
+    "primary_function": "aromatic",
     "possible_functions": [
-      "bulk_vegetable",
-      "body_provider"
+      "fresh_component",
+      "garnish",
+      "savory_component"
     ],
     "properties": {
       "fat": "low",
@@ -1031,19 +1152,26 @@
       "acidity": "low",
       "saltiness": "low"
     },
-    "texture": "solid",
-    "flavor_strength": "mild",
-    "special_capabilities": [],
-    "direct_substitutes": [],
-    "source": "manual"
+    "texture": "crunchy",
+    "flavor_strength": "medium",
+    "special_capabilities": [
+      "none"
+    ],
+    "direct_substitutes": [
+      "shallots",
+      "leeks",
+      "onions"
+    ],
+    "source": "gemini_generated"
   },
   "scallions": {
     "parent": null,
-    "category": "vegetable",
-    "primary_function": "bulk_vegetable",
+    "category": "aromatic",
+    "primary_function": "aromatic",
     "possible_functions": [
-      "bulk_vegetable",
-      "body_provider"
+      "fresh_component",
+      "garnish",
+      "savory_component"
     ],
     "properties": {
       "fat": "low",
@@ -1052,11 +1180,17 @@
       "acidity": "low",
       "saltiness": "low"
     },
-    "texture": "solid",
-    "flavor_strength": "mild",
-    "special_capabilities": [],
-    "direct_substitutes": [],
-    "source": "manual"
+    "texture": "crunchy",
+    "flavor_strength": "medium",
+    "special_capabilities": [
+      "none"
+    ],
+    "direct_substitutes": [
+      "green onions",
+      "chives",
+      "leeks"
+    ],
+    "source": "gemini_generated"
   },
   "low salt chicken broth": {
     "parent": null,
@@ -1170,11 +1304,11 @@
   },
   "ginger": {
     "parent": null,
-    "category": "vegetable",
-    "primary_function": "bulk_vegetable",
+    "category": "aromatic",
+    "primary_function": "aromatic",
     "possible_functions": [
-      "bulk_vegetable",
-      "body_provider"
+      "flavor_base",
+      "fresh_component"
     ],
     "properties": {
       "fat": "low",
@@ -1183,74 +1317,177 @@
       "acidity": "low",
       "saltiness": "low"
     },
-    "texture": "solid",
-    "flavor_strength": "mild",
-    "special_capabilities": [],
-    "direct_substitutes": [],
-    "source": "manual"
+    "texture": "paste",
+    "flavor_strength": "strong",
+    "special_capabilities": [
+      "none"
+    ],
+    "direct_substitutes": [
+      "galangal",
+      "turmeric",
+      "ginger powder"
+    ],
+    "source": "gemini_generated"
   },
   "bacon": {
     "parent": null,
-    "category": "vegetable",
-    "primary_function": "bulk_vegetable",
+    "category": "protein",
+    "primary_function": "main_protein",
     "possible_functions": [
-      "bulk_vegetable",
-      "body_provider"
+      "fat_source",
+      "savory_component",
+      "seasoning"
     ],
     "properties": {
-      "fat": "low",
+      "fat": "high",
       "moisture": "medium",
       "sweetness": "low",
       "acidity": "low",
-      "saltiness": "low"
+      "saltiness": "medium"
     },
     "texture": "solid",
-    "flavor_strength": "mild",
-    "special_capabilities": [],
-    "direct_substitutes": [],
-    "source": "manual"
+    "flavor_strength": "strong",
+    "special_capabilities": [
+      "searable",
+      "caramelizable"
+    ],
+    "direct_substitutes": [
+      "pancetta",
+      "prosciutto",
+      "lardons"
+    ],
+    "source": "gemini_generated"
   },
   "orange juice": {
-    "parent": null,
+    "parent": "orange",
     "category": "liquid",
-    "primary_function": "liquid_base",
+    "primary_function": "acidity_provider",
     "possible_functions": [
+      "acidity_provider",
+      "flavor_booster",
       "liquid_base",
-      "sauce_base",
-      "body_provider"
+      "sauce_base"
+    ],
+    "properties": {
+      "fat": "low",
+      "moisture": "high",
+      "sweetness": "medium",
+      "acidity": "medium",
+      "saltiness": "low"
+    },
+    "texture": "liquid",
+    "flavor_strength": "medium",
+    "special_capabilities": [],
+    "direct_substitutes": [
+      "lemon juice",
+      "lime juice"
+    ],
+    "source": "manual"
+  },
+  "lemon": {
+    "parent": null,
+    "category": "fruit",
+    "primary_function": "acid_source",
+    "possible_functions": [
+      "acid_source",
+      "seasoning",
+      "garnish"
     ],
     "properties": {
       "fat": "low",
       "moisture": "high",
       "sweetness": "low",
-      "acidity": "low",
-      "saltiness": "low"
-    },
-    "texture": "liquid",
-    "flavor_strength": "mild",
-    "special_capabilities": [],
-    "direct_substitutes": [],
-    "source": "manual"
-  },
-  "lemon": {
-    "parent": null,
-    "category": "vegetable",
-    "primary_function": "bulk_vegetable",
-    "possible_functions": [
-      "bulk_vegetable",
-      "body_provider"
-    ],
-    "properties": {
-      "fat": "low",
-      "moisture": "medium",
-      "sweetness": "low",
-      "acidity": "low",
+      "acidity": "high",
       "saltiness": "low"
     },
     "texture": "solid",
-    "flavor_strength": "mild",
+    "flavor_strength": "strong",
     "special_capabilities": [],
-    "direct_substitutes": [],
+    "direct_substitutes": [
+      "lime",
+      "lemon juice",
+      "lime juice"
+    ],
+    "source": "manual"
+  },
+  "lime": {
+    "parent": null,
+    "category": "fruit",
+    "primary_function": "acid_source",
+    "possible_functions": [
+      "acid_source",
+      "seasoning",
+      "garnish"
+    ],
+    "properties": {
+      "fat": "low",
+      "moisture": "high",
+      "sweetness": "low",
+      "acidity": "high",
+      "saltiness": "low"
+    },
+    "texture": "solid",
+    "flavor_strength": "strong",
+    "special_capabilities": [],
+    "direct_substitutes": [
+      "lemon",
+      "lime juice",
+      "lemon juice"
+    ],
+    "source": "manual"
+  },
+  "lime wedges": {
+    "parent": "lime",
+    "category": "fruit",
+    "primary_function": "acid_source",
+    "possible_functions": [
+      "acid_source",
+      "seasoning",
+      "garnish"
+    ],
+    "properties": {
+      "fat": "low",
+      "moisture": "high",
+      "sweetness": "low",
+      "acidity": "high",
+      "saltiness": "low"
+    },
+    "texture": "solid",
+    "flavor_strength": "strong",
+    "special_capabilities": [],
+    "direct_substitutes": [
+      "lemon",
+      "lemon wedges",
+      "lime juice",
+      "lemon juice"
+    ],
+    "source": "manual"
+  },
+  "lemon wedges": {
+    "parent": "lemon",
+    "category": "fruit",
+    "primary_function": "acid_source",
+    "possible_functions": [
+      "acid_source",
+      "seasoning",
+      "garnish"
+    ],
+    "properties": {
+      "fat": "low",
+      "moisture": "high",
+      "sweetness": "low",
+      "acidity": "high",
+      "saltiness": "low"
+    },
+    "texture": "solid",
+    "flavor_strength": "strong",
+    "special_capabilities": [],
+    "direct_substitutes": [
+      "lime",
+      "lime wedges",
+      "lime juice",
+      "lemon juice"
+    ],
     "source": "manual"
   },
   "powdered sugar": {
@@ -1300,24 +1537,33 @@
   },
   "tomatoes": {
     "parent": null,
-    "category": "vegetable",
-    "primary_function": "bulk_vegetable",
+    "category": "fruit",
+    "primary_function": "savory_component",
     "possible_functions": [
-      "bulk_vegetable",
-      "body_provider"
+      "acid_source",
+      "sauce_base",
+      "fresh_component",
+      "bulk_vegetable"
     ],
     "properties": {
       "fat": "low",
-      "moisture": "medium",
+      "moisture": "high",
       "sweetness": "low",
-      "acidity": "low",
+      "acidity": "medium",
       "saltiness": "low"
     },
-    "texture": "solid",
-    "flavor_strength": "mild",
-    "special_capabilities": [],
-    "direct_substitutes": [],
-    "source": "manual"
+    "texture": "soft",
+    "flavor_strength": "medium",
+    "special_capabilities": [
+      "reducible",
+      "roastable"
+    ],
+    "direct_substitutes": [
+      "canned tomatoes",
+      "tomato paste",
+      "tomato sauce"
+    ],
+    "source": "gemini_generated"
   },
   "dried oregano": {
     "parent": null,
@@ -1363,11 +1609,11 @@
   },
   "mint": {
     "parent": null,
-    "category": "vegetable",
-    "primary_function": "bulk_vegetable",
+    "category": "aromatic",
+    "primary_function": "fresh_component",
     "possible_functions": [
-      "bulk_vegetable",
-      "body_provider"
+      "aromatic",
+      "garnish"
     ],
     "properties": {
       "fat": "low",
@@ -1377,10 +1623,16 @@
       "saltiness": "low"
     },
     "texture": "solid",
-    "flavor_strength": "mild",
-    "special_capabilities": [],
-    "direct_substitutes": [],
-    "source": "manual"
+    "flavor_strength": "medium",
+    "special_capabilities": [
+      "none"
+    ],
+    "direct_substitutes": [
+      "basil",
+      "parsley",
+      "cilantro"
+    ],
+    "source": "gemini_generated"
   },
   "granulated sugar": {
     "parent": null,
@@ -1405,11 +1657,12 @@
   },
   "italian parsley": {
     "parent": null,
-    "category": "vegetable",
-    "primary_function": "bulk_vegetable",
+    "category": "aromatic",
+    "primary_function": "fresh_component",
     "possible_functions": [
-      "bulk_vegetable",
-      "body_provider"
+      "garnish",
+      "flavor_base",
+      "savory_component"
     ],
     "properties": {
       "fat": "low",
@@ -1418,11 +1671,16 @@
       "acidity": "low",
       "saltiness": "low"
     },
-    "texture": "solid",
-    "flavor_strength": "mild",
-    "special_capabilities": [],
-    "direct_substitutes": [],
-    "source": "manual"
+    "texture": "soft",
+    "flavor_strength": "medium",
+    "special_capabilities": [
+      "none"
+    ],
+    "direct_substitutes": [
+      "flat leaf parsley",
+      "cilantro"
+    ],
+    "source": "gemini_generated"
   },
   "red pepper": {
     "parent": null,
@@ -1447,24 +1705,34 @@
   },
   "egg whites": {
     "parent": null,
-    "category": "vegetable",
-    "primary_function": "bulk_vegetable",
+    "category": "protein",
+    "primary_function": "binder",
     "possible_functions": [
-      "bulk_vegetable",
-      "body_provider"
+      "structure",
+      "main_protein",
+      "emulsifier"
     ],
     "properties": {
       "fat": "low",
-      "moisture": "medium",
+      "moisture": "high",
       "sweetness": "low",
       "acidity": "low",
       "saltiness": "low"
     },
-    "texture": "solid",
+    "texture": "liquid",
     "flavor_strength": "mild",
-    "special_capabilities": [],
-    "direct_substitutes": [],
-    "source": "manual"
+    "special_capabilities": [
+      "emulsifier",
+      "whippable",
+      "gelatinizing"
+    ],
+    "direct_substitutes": [
+      "aquafaba",
+      "silken tofu",
+      "flax egg",
+      "chia egg"
+    ],
+    "source": "gemini_generated"
   },
   "nutmeg": {
     "parent": null,
@@ -1512,24 +1780,29 @@
     "source": "manual"
   },
   "grated lemon peel": {
-    "parent": null,
-    "category": "vegetable",
-    "primary_function": "bulk_vegetable",
+    "parent": "lemon",
+    "category": "fruit",
+    "primary_function": "flavor_booster",
     "possible_functions": [
-      "bulk_vegetable",
-      "body_provider"
+      "seasoning",
+      "acid_source",
+      "garnish"
     ],
     "properties": {
       "fat": "low",
-      "moisture": "medium",
+      "moisture": "low",
       "sweetness": "low",
-      "acidity": "low",
+      "acidity": "medium",
       "saltiness": "low"
     },
-    "texture": "solid",
-    "flavor_strength": "mild",
+    "texture": "powder",
+    "flavor_strength": "strong",
     "special_capabilities": [],
-    "direct_substitutes": [],
+    "direct_substitutes": [
+      "lime zest",
+      "orange zest",
+      "lemon juice"
+    ],
     "source": "manual"
   },
   "coarse kosher salt": {
@@ -1622,66 +1895,88 @@
   },
   "bay leaves": {
     "parent": null,
-    "category": "vegetable",
-    "primary_function": "bulk_vegetable",
+    "category": "aromatic",
+    "primary_function": "seasoning",
     "possible_functions": [
-      "bulk_vegetable",
-      "body_provider"
+      "aromatic",
+      "flavor_base"
     ],
     "properties": {
       "fat": "low",
-      "moisture": "medium",
+      "moisture": "low",
       "sweetness": "low",
       "acidity": "low",
       "saltiness": "low"
     },
     "texture": "solid",
-    "flavor_strength": "mild",
-    "special_capabilities": [],
-    "direct_substitutes": [],
-    "source": "manual"
+    "flavor_strength": "medium",
+    "special_capabilities": [
+      "none"
+    ],
+    "direct_substitutes": [
+      "dried bay leaves",
+      "curry leaves",
+      "parsley stems"
+    ],
+    "source": "gemini_generated"
   },
   "plum tomatoes": {
     "parent": null,
     "category": "vegetable",
     "primary_function": "bulk_vegetable",
     "possible_functions": [
-      "bulk_vegetable",
-      "body_provider"
+      "acid_source",
+      "flavor_base",
+      "fresh_component",
+      "sauce_base"
     ],
     "properties": {
       "fat": "low",
-      "moisture": "medium",
+      "moisture": "high",
       "sweetness": "low",
-      "acidity": "low",
+      "acidity": "medium",
       "saltiness": "low"
     },
-    "texture": "solid",
-    "flavor_strength": "mild",
-    "special_capabilities": [],
-    "direct_substitutes": [],
-    "source": "manual"
+    "texture": "soft",
+    "flavor_strength": "medium",
+    "special_capabilities": [
+      "reducible",
+      "roastable"
+    ],
+    "direct_substitutes": [
+      "canned tomatoes",
+      "diced tomatoes",
+      "crushed tomatoes",
+      "tomato paste",
+      "tomato sauce"
+    ],
+    "source": "gemini_generated"
   },
   "peeled ginger": {
     "parent": null,
-    "category": "vegetable",
-    "primary_function": "bulk_vegetable",
+    "category": "aromatic",
+    "primary_function": "aromatic",
     "possible_functions": [
-      "bulk_vegetable",
-      "body_provider"
+      "flavor_base",
+      "fresh_component"
     ],
     "properties": {
       "fat": "low",
       "moisture": "medium",
       "sweetness": "low",
-      "acidity": "low",
+      "acidity": "medium",
       "saltiness": "low"
     },
-    "texture": "solid",
-    "flavor_strength": "mild",
-    "special_capabilities": [],
-    "direct_substitutes": [],
-    "source": "manual"
+    "texture": "paste",
+    "flavor_strength": "strong",
+    "special_capabilities": [
+      "none"
+    ],
+    "direct_substitutes": [
+      "galangal",
+      "turmeric"
+    ],
+    "source": "gemini_generated"
   },
   "chicken breast": {
     "parent": null,
@@ -1709,24 +2004,32 @@
   },
   "walnuts": {
     "parent": null,
-    "category": "vegetable",
-    "primary_function": "bulk_vegetable",
+    "category": "protein",
+    "primary_function": "fat_source",
     "possible_functions": [
-      "bulk_vegetable",
+      "garnish",
+      "binder",
       "body_provider"
     ],
     "properties": {
-      "fat": "low",
-      "moisture": "medium",
+      "fat": "high",
+      "moisture": "low",
       "sweetness": "low",
       "acidity": "low",
       "saltiness": "low"
     },
-    "texture": "solid",
-    "flavor_strength": "mild",
-    "special_capabilities": [],
-    "direct_substitutes": [],
-    "source": "manual"
+    "texture": "crunchy",
+    "flavor_strength": "medium",
+    "special_capabilities": [
+      "roastable",
+      "none"
+    ],
+    "direct_substitutes": [
+      "pecans",
+      "almonds",
+      "macadamia nuts"
+    ],
+    "source": "gemini_generated"
   },
   "golden brown sugar": {
     "parent": null,
@@ -1752,23 +2055,31 @@
   "fennel bulb": {
     "parent": null,
     "category": "vegetable",
-    "primary_function": "bulk_vegetable",
+    "primary_function": "aromatic",
     "possible_functions": [
+      "flavor_base",
       "bulk_vegetable",
-      "body_provider"
+      "fresh_component"
     ],
     "properties": {
       "fat": "low",
       "moisture": "medium",
-      "sweetness": "low",
+      "sweetness": "medium",
       "acidity": "low",
       "saltiness": "low"
     },
     "texture": "solid",
-    "flavor_strength": "mild",
-    "special_capabilities": [],
-    "direct_substitutes": [],
-    "source": "manual"
+    "flavor_strength": "medium",
+    "special_capabilities": [
+      "caramelizable",
+      "roastable"
+    ],
+    "direct_substitutes": [
+      "celery",
+      "leek",
+      "onion"
+    ],
+    "source": "gemini_generated"
   },
   "dried thyme": {
     "parent": null,
@@ -1817,24 +2128,30 @@
   },
   "bay leaf": {
     "parent": null,
-    "category": "vegetable",
-    "primary_function": "bulk_vegetable",
+    "category": "aromatic",
+    "primary_function": "aromatic",
     "possible_functions": [
-      "bulk_vegetable",
-      "body_provider"
+      "seasoning"
     ],
     "properties": {
       "fat": "low",
-      "moisture": "medium",
+      "moisture": "low",
       "sweetness": "low",
       "acidity": "low",
       "saltiness": "low"
     },
     "texture": "solid",
-    "flavor_strength": "mild",
-    "special_capabilities": [],
-    "direct_substitutes": [],
-    "source": "manual"
+    "flavor_strength": "medium",
+    "special_capabilities": [
+      "none"
+    ],
+    "direct_substitutes": [
+      "curry leaves",
+      "parsley",
+      "thyme",
+      "rosemary"
+    ],
+    "source": "gemini_generated"
   },
   "chilled whipping cream": {
     "parent": null,
@@ -1861,11 +2178,11 @@
   },
   "dill": {
     "parent": null,
-    "category": "vegetable",
-    "primary_function": "bulk_vegetable",
+    "category": "garnish",
+    "primary_function": "fresh_component",
     "possible_functions": [
-      "bulk_vegetable",
-      "body_provider"
+      "garnish",
+      "seasoning"
     ],
     "properties": {
       "fat": "low",
@@ -1874,11 +2191,17 @@
       "acidity": "low",
       "saltiness": "low"
     },
-    "texture": "solid",
-    "flavor_strength": "mild",
-    "special_capabilities": [],
-    "direct_substitutes": [],
-    "source": "manual"
+    "texture": "soft",
+    "flavor_strength": "medium",
+    "special_capabilities": [
+      "none"
+    ],
+    "direct_substitutes": [
+      "parsley",
+      "cilantro",
+      "chives"
+    ],
+    "source": "gemini_generated"
   },
   "basil leaves": {
     "parent": null,
@@ -1903,24 +2226,31 @@
   },
   "buttermilk": {
     "parent": null,
-    "category": "vegetable",
-    "primary_function": "bulk_vegetable",
+    "category": "dairy",
+    "primary_function": "acid_source",
     "possible_functions": [
-      "bulk_vegetable",
-      "body_provider"
+      "liquid_base",
+      "structure",
+      "emulsifier"
     ],
     "properties": {
-      "fat": "low",
-      "moisture": "medium",
+      "fat": "medium",
+      "moisture": "high",
       "sweetness": "low",
-      "acidity": "low",
+      "acidity": "medium",
       "saltiness": "low"
     },
-    "texture": "solid",
+    "texture": "liquid",
     "flavor_strength": "mild",
-    "special_capabilities": [],
-    "direct_substitutes": [],
-    "source": "manual"
+    "special_capabilities": [
+      "emulsifier",
+      "thickening"
+    ],
+    "direct_substitutes": [
+      "milk + acid",
+      "yogurt"
+    ],
+    "source": "gemini_generated"
   },
   "freshly grated parmesan cheese": {
     "parent": null,
@@ -1968,45 +2298,61 @@
   },
   "pine nuts": {
     "parent": null,
-    "category": "vegetable",
-    "primary_function": "bulk_vegetable",
+    "category": "garnish",
+    "primary_function": "garnish",
     "possible_functions": [
-      "bulk_vegetable",
-      "body_provider"
+      "fat_source",
+      "crunchy"
     ],
     "properties": {
-      "fat": "low",
-      "moisture": "medium",
+      "fat": "medium",
+      "moisture": "low",
       "sweetness": "low",
       "acidity": "low",
       "saltiness": "low"
     },
-    "texture": "solid",
-    "flavor_strength": "mild",
-    "special_capabilities": [],
-    "direct_substitutes": [],
-    "source": "manual"
+    "texture": "crunchy",
+    "flavor_strength": "medium",
+    "special_capabilities": [
+      "roastable"
+    ],
+    "direct_substitutes": [
+      "almonds",
+      "walnuts",
+      "pecans",
+      "macadamia nuts"
+    ],
+    "source": "gemini_generated"
   },
   "zucchini": {
     "parent": null,
     "category": "vegetable",
     "primary_function": "bulk_vegetable",
     "possible_functions": [
-      "bulk_vegetable",
+      "savory_component",
+      "fresh_component",
       "body_provider"
     ],
     "properties": {
       "fat": "low",
-      "moisture": "medium",
+      "moisture": "high",
       "sweetness": "low",
       "acidity": "low",
       "saltiness": "low"
     },
     "texture": "solid",
     "flavor_strength": "mild",
-    "special_capabilities": [],
-    "direct_substitutes": [],
-    "source": "manual"
+    "special_capabilities": [
+      "grillable",
+      "roastable",
+      "caramelizable"
+    ],
+    "direct_substitutes": [
+      "summer squash",
+      "cucumber",
+      "eggplant"
+    ],
+    "source": "gemini_generated"
   },
   "grated parmesan cheese": {
     "parent": null,
@@ -2033,53 +2379,63 @@
   },
   "fennel seeds": {
     "parent": null,
-    "category": "vegetable",
-    "primary_function": "bulk_vegetable",
+    "category": "seasoning",
+    "primary_function": "seasoning",
     "possible_functions": [
-      "bulk_vegetable",
-      "body_provider"
+      "aromatic",
+      "flavor_base"
     ],
     "properties": {
       "fat": "low",
-      "moisture": "medium",
+      "moisture": "low",
       "sweetness": "low",
       "acidity": "low",
       "saltiness": "low"
     },
-    "texture": "solid",
-    "flavor_strength": "mild",
-    "special_capabilities": [],
-    "direct_substitutes": [],
-    "source": "manual"
+    "texture": "powder",
+    "flavor_strength": "medium",
+    "special_capabilities": [
+      "none"
+    ],
+    "direct_substitutes": [
+      "anise seed"
+    ],
+    "source": "gemini_generated"
   },
   "allspice": {
     "parent": null,
-    "category": "vegetable",
-    "primary_function": "bulk_vegetable",
+    "category": "seasoning",
+    "primary_function": "seasoning",
     "possible_functions": [
-      "bulk_vegetable",
-      "body_provider"
+      "aromatic",
+      "seasoning"
     ],
     "properties": {
       "fat": "low",
-      "moisture": "medium",
-      "sweetness": "low",
+      "moisture": "low",
+      "sweetness": "medium",
       "acidity": "low",
       "saltiness": "low"
     },
-    "texture": "solid",
-    "flavor_strength": "mild",
-    "special_capabilities": [],
-    "direct_substitutes": [],
-    "source": "manual"
+    "texture": "powder",
+    "flavor_strength": "medium",
+    "special_capabilities": [
+      "none"
+    ],
+    "direct_substitutes": [
+      "cloves",
+      "nutmeg",
+      "cinnamon"
+    ],
+    "source": "gemini_generated"
   },
   "russet potatoes": {
     "parent": null,
     "category": "vegetable",
     "primary_function": "bulk_vegetable",
     "possible_functions": [
-      "bulk_vegetable",
-      "body_provider"
+      "starch_base",
+      "flavor_base"
     ],
     "properties": {
       "fat": "low",
@@ -2090,9 +2446,18 @@
     },
     "texture": "solid",
     "flavor_strength": "mild",
-    "special_capabilities": [],
-    "direct_substitutes": [],
-    "source": "manual"
+    "special_capabilities": [
+      "roastable",
+      "grillable",
+      "caramelizable"
+    ],
+    "direct_substitutes": [
+      "sweet potatoes",
+      "yams",
+      "parsnips",
+      "celeriac"
+    ],
+    "source": "gemini_generated"
   },
   "tomato paste": {
     "parent": null,
@@ -2119,75 +2484,95 @@
     "source": "manual"
   },
   "finely grated lemon zest": {
-    "parent": null,
-    "category": "vegetable",
-    "primary_function": "bulk_vegetable",
+    "parent": "lemon",
+    "category": "fruit",
+    "primary_function": "flavor_booster",
     "possible_functions": [
-      "bulk_vegetable",
-      "body_provider"
+      "seasoning",
+      "acid_source",
+      "garnish"
     ],
     "properties": {
       "fat": "low",
-      "moisture": "medium",
+      "moisture": "low",
       "sweetness": "low",
-      "acidity": "low",
+      "acidity": "medium",
       "saltiness": "low"
     },
-    "texture": "solid",
-    "flavor_strength": "mild",
+    "texture": "powder",
+    "flavor_strength": "strong",
     "special_capabilities": [],
-    "direct_substitutes": [],
+    "direct_substitutes": [
+      "lime zest",
+      "orange zest",
+      "lemon juice"
+    ],
     "source": "manual"
   },
   "egg yolk": {
     "parent": null,
-    "category": "vegetable",
-    "primary_function": "bulk_vegetable",
+    "category": "protein",
+    "primary_function": "binder",
     "possible_functions": [
-      "bulk_vegetable",
-      "body_provider"
+      "fat_source",
+      "structure",
+      "emulsifier"
     ],
     "properties": {
-      "fat": "low",
+      "fat": "medium",
       "moisture": "medium",
       "sweetness": "low",
       "acidity": "low",
       "saltiness": "low"
     },
-    "texture": "solid",
+    "texture": "creamy",
     "flavor_strength": "mild",
-    "special_capabilities": [],
-    "direct_substitutes": [],
-    "source": "manual"
+    "special_capabilities": [
+      "emulsifier"
+    ],
+    "direct_substitutes": [
+      "egg white",
+      "whole egg"
+    ],
+    "source": "gemini_generated"
   },
   "carrot": {
     "parent": null,
     "category": "vegetable",
     "primary_function": "bulk_vegetable",
     "possible_functions": [
-      "bulk_vegetable",
-      "body_provider"
+      "aromatic",
+      "flavor_base",
+      "fresh_component"
     ],
     "properties": {
       "fat": "low",
       "moisture": "medium",
-      "sweetness": "low",
+      "sweetness": "medium",
       "acidity": "low",
       "saltiness": "low"
     },
     "texture": "solid",
-    "flavor_strength": "mild",
-    "special_capabilities": [],
-    "direct_substitutes": [],
-    "source": "manual"
+    "flavor_strength": "medium",
+    "special_capabilities": [
+      "caramelizable",
+      "roastable"
+    ],
+    "direct_substitutes": [
+      "parsnip",
+      "sweet potato",
+      "turnip"
+    ],
+    "source": "gemini_generated"
   },
   "flat leaf parsley": {
     "parent": null,
-    "category": "vegetable",
-    "primary_function": "bulk_vegetable",
+    "category": "garnish",
+    "primary_function": "fresh_component",
     "possible_functions": [
-      "bulk_vegetable",
-      "body_provider"
+      "garnish",
+      "fresh_component",
+      "savory_component"
     ],
     "properties": {
       "fat": "low",
@@ -2196,10 +2581,16 @@
       "acidity": "low",
       "saltiness": "low"
     },
-    "texture": "solid",
-    "flavor_strength": "mild",
-    "special_capabilities": [],
-    "direct_substitutes": [],
-    "source": "manual"
+    "texture": "soft",
+    "flavor_strength": "medium",
+    "special_capabilities": [
+      "none"
+    ],
+    "direct_substitutes": [
+      "cilantro",
+      "mint",
+      "chervil"
+    ],
+    "source": "gemini_generated"
   }
 }

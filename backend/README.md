@@ -57,12 +57,11 @@ ENABLE_GEMINI_METADATA=0
 4. infer missing buckets and rank
 5. return top results
 
-## Scripts
+## Data files
 
-| Script | Purpose |
-|---|---|
-| `scripts/preprocess_dataset.py` | Parse and normalize raw recipe JSON |
-| `scripts/smoke_test_api.py` | Basic API smoke test |
-| `scripts/run_user_inventory_demo.py` | CLI demo of the recommendation flow |
-| `scripts/compare_inventory_scenarios.py` | Compare results for different inventories |
-| `scripts/validate_recommendation_quality.py` | Recommendation quality checks |
+| File | Committed | Purpose |
+|---|---|---|
+| `ingredient_metadata.json` | ✅ | Hand-curated ingredient metadata |
+| `substitute_pools.json` | ✅ | Role-based substitution candidate pools |
+| `ingredient_metadata.generated.json` | ❌ | Auto-generated via Gemini at runtime |
+| `unknown_log.json` | ❌ | Runtime log of unrecognized ingredients |

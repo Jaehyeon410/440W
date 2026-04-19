@@ -553,3 +553,241 @@ def rewrite_recipe_steps(
         "fallback_reason": "",
         "rewrite_mode": overall_mode,
     }
+
+
+# ---------------------------------------------------------------------------
+# LLM-first recipe step rewrite
+# ---------------------------------------------------------------------------
+
+
+def _build_adjustment_context(
+    selected_substitutions: List[Dict[str, str]],
+    adjustment_metadata: Optional[List[Dict[str, Any]]] = None,
+) -> str:
+    """Build a concise per-substitution context block for the LLM prompt.
+
+    Extracts practical cooking-relevant notes from existing adjustment metadata
+    so the LLM can adapt recipes to the substitute's behavior.
+    """
+    if not adjustment_metadata:
+        return ""
+
+    blocks: List[str] = []
+    meta_by_source: Dict[str, Dict[str, Any]] = {}
+    for adj in adjustment_metadata:
+        src = _norm(adj.get("source_canonical") or adj.get("source_base") or "")
+        if src:
+            meta_by_source[src] = adj
+
+    for sub in selected_substitutions:
+        src = sub["from"]
+        tgt = sub["to"]
+        adj = meta_by_source.get(_norm(src))
+        if not adj:
+            continue
+
+        lines: List[str] = [f"  {src} -> {tgt}:"]
+
+        role = adj.get("inferred_role") or ""
+        if role:
+            lines.append(f"    Role in recipe: {role}")
+
+        expected = adj.get("expected_changes") or {}
+        for key in ["flavor", "texture", "moisture"]:
+            val = _clean_spaces(str(expected.get(key, "")))
+            if val and "minimal" not in val.lower() and "none" not in val.lower():
+                lines.append(f"    Expected {key} change: {val}")
+
+        method = adj.get("method_adjustment") or {}
+        if method.get("needed") and method.get("note"):
+            lines.append(f"    Method adjustment: {_clean_spaces(str(method['note']))}")
+
+        prep = adj.get("preprocessing") or {}
+        if prep.get("needed") and prep.get("note"):
+            lines.append(f"    Preparation: {_clean_spaces(str(prep['note']))}")
+
+        timing = adj.get("timing_adjustment") or {}
+        if timing.get("needed") and timing.get("note"):
+            lines.append(f"    Timing: {_clean_spaces(str(timing['note']))}")
+
+        amount = adj.get("amount_adjustment") or {}
+        amount_note = _clean_spaces(str(amount.get("note", "")))
+        if amount_note:
+            lines.append(f"    Amount: {amount_note}")
+
+        risk_flags = adj.get("risk_flags") or []
+        relevant_risks = [
+            _RISK_WARNING_MAP[_norm(f)]
+            for f in risk_flags
+            if _norm(f) in _RISK_WARNING_MAP
+        ]
+        if relevant_risks:
+            lines.append(f"    Warnings: {'; '.join(relevant_risks[:3])}")
+
+        if len(lines) > 1:
+            blocks.append("\n".join(lines))
+
+    if not blocks:
+        return ""
+
+    return "ADJUSTMENT CONTEXT (use these notes to adapt the cooking method):\n" + "\n".join(blocks)
+
+
+def llm_rewrite_recipe_steps(
+    recipe_title: str,
+    original_ingredients: List[str],
+    original_steps: List[str],
+    selected_substitutions: List[Dict[str, str]],
+    adjustment_metadata: Optional[List[Dict[str, Any]]] = None,
+) -> Dict[str, Any]:
+    """Rewrite recipe steps via Gemini LLM when substitutions are selected.
+
+    This is the primary rewrite path when any substitutions exist.
+    The regex-based ``rewrite_recipe_steps`` is kept as a utility but is no
+    longer the main rewrite engine.
+
+    Parameters
+    ----------
+    recipe_title : str
+        Title of the recipe.
+    original_ingredients : list[str]
+        Raw ingredient lines from the recipe.
+    original_steps : list[str]
+        Normalised original cooking steps.
+    selected_substitutions : list[dict]
+        Each dict has ``"from"`` (original ingredient) and ``"to"`` (substitute).
+    adjustment_metadata : list[dict] or None
+        Per-substitution adjustment metadata from Step 6 (method adjustments,
+        expected changes, timing, etc.).  When provided, a concise context
+        block is included in the prompt so the LLM can adapt the cooking
+        method to each substitute's behavior.
+
+    Returns
+    -------
+    dict with keys:
+        edited_steps   – list[str], the rewritten steps
+        rewrite_mode   – "llm" | "fallback_original"
+        fallback_reason – str, empty when LLM succeeded
+    """
+    import logging
+
+    logger = logging.getLogger(__name__)
+
+    if not selected_substitutions:
+        return {
+            "edited_steps": list(original_steps),
+            "rewrite_mode": "fallback_original",
+            "fallback_reason": "No substitutions provided.",
+        }
+
+    from gemini_client import generate_json_with_retry
+
+    subs_lines = "\n".join(
+        f'- Replace "{sub["from"]}" with "{sub["to"]}"'
+        for sub in selected_substitutions
+    )
+    ingredients_text = "\n".join(f"- {ing}" for ing in original_ingredients)
+    steps_text = "\n".join(
+        f"{i + 1}. {step}" for i, step in enumerate(original_steps)
+    )
+
+    adjustment_context = _build_adjustment_context(
+        selected_substitutions, adjustment_metadata
+    )
+    adjustment_section = (
+        f"\n{adjustment_context}\n" if adjustment_context else ""
+    )
+
+    prompt = (
+        "You are a professional recipe editor and experienced cook. "
+        "Rewrite the recipe steps below to reflect the selected ingredient "
+        "substitutions. Your goal is to produce a recipe that is PRACTICALLY "
+        "COOKABLE with the new ingredients, not just a text find-and-replace.\n\n"
+        f"RECIPE TITLE: {recipe_title}\n\n"
+        f"ORIGINAL INGREDIENTS:\n{ingredients_text}\n\n"
+        f"ORIGINAL STEPS:\n{steps_text}\n\n"
+        f"SELECTED SUBSTITUTIONS:\n{subs_lines}\n"
+        f"{adjustment_section}\n"
+        "STRICT RULES:\n"
+        "1. APPLY ALL SUBSTITUTIONS: Every substituted ingredient must appear "
+        "in the rewritten steps wherever the original ingredient was used. "
+        "The original missing ingredient name must NOT remain in the final "
+        "steps.\n\n"
+        "2. ADJUST THE COOKING METHOD — DO NOT ONLY REPLACE NAMES:\n"
+        "   - If a substitute has different moisture, texture, sweetness, "
+        "acidity, fat content, or cooking behavior compared to the original, "
+        "UPDATE the cooking instructions to match the substitute.\n"
+        "   - Adjust cooking time, heat level, mixing technique, preparation "
+        "style, and consistency targets when the substitute requires it.\n"
+        "   - If the original method would be inappropriate for the substitute "
+        "(e.g. long simmering for a soft fruit, heavy kneading for a delicate "
+        "starch), REWRITE the method rather than copying it verbatim.\n"
+        "   - Use the ADJUSTMENT CONTEXT above (if provided) to guide your "
+        "method changes.\n\n"
+        "3. PRESERVE THE DISH: Keep the same overall dish identity, structure, "
+        "and intent. Do NOT invent a different recipe. The result should still "
+        "be recognizable as the original dish.\n\n"
+        "4. DO NOT INVENT INGREDIENTS: Only use original recipe ingredients "
+        "plus the selected substitutes. Do NOT introduce any new ingredients "
+        "not already present.\n\n"
+        "5. STEP READABILITY: You MAY split long multi-action steps into "
+        "shorter, clearer steps. Keep the order logical. Readability is more "
+        "important than preserving the exact step count.\n\n"
+        "6. WRITE FOR REAL COOKING: The final output should read like actual "
+        "cooking instructions a real person can follow. Use realistic "
+        "procedural language. Prefer practical wording over minimal word "
+        "substitution.\n\n"
+        "OUTPUT: Return ONLY a JSON object in this exact format:\n"
+        '{"edited_steps": ["step 1 text", "step 2 text", ...]}'
+    )
+
+    strict_prompt = (
+        "Rewrite these recipe steps with substitutions applied. Adapt the "
+        "cooking method to match each substitute's behavior. Return JSON "
+        "only.\n\n"
+        f"Recipe: {recipe_title}\n"
+        f"Substitutions:\n{subs_lines}\n"
+        f"{adjustment_section}\n"
+        f"Original steps:\n{steps_text}\n\n"
+        "Rules: Apply all substitutions. Adjust cooking method when the "
+        "substitute behaves differently (moisture, texture, cooking time, "
+        "technique). Keep the same dish. Do not add new ingredients. You may "
+        "split long steps for readability.\n\n"
+        'Return: {"edited_steps": ["...", "..."]}'
+    )
+
+    try:
+        result = generate_json_with_retry(prompt, strict_prompt)
+        if result and isinstance(result.get("edited_steps"), list):
+            edited = [
+                str(s).strip() for s in result["edited_steps"] if str(s).strip()
+            ]
+            if edited:
+                logger.info(
+                    "LLM step rewrite succeeded: %d original -> %d rewritten steps",
+                    len(original_steps),
+                    len(edited),
+                )
+                return {
+                    "edited_steps": edited,
+                    "rewrite_mode": "llm",
+                    "fallback_reason": "",
+                }
+
+        logger.warning(
+            "LLM rewrite returned invalid or empty steps; falling back to originals."
+        )
+        return {
+            "edited_steps": list(original_steps),
+            "rewrite_mode": "fallback_original",
+            "fallback_reason": "LLM returned invalid or empty steps.",
+        }
+    except Exception as exc:
+        logger.warning(
+            "LLM step rewrite failed: %s; falling back to originals.", exc
+        )
+        return {
+            "edited_steps": list(original_steps),
+            "rewrite_mode": "fallback_original",
+            "fallback_reason": f"LLM rewrite failed: {exc}",
+        }

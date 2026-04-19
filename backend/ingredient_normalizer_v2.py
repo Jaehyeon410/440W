@@ -133,9 +133,13 @@ COMPOUND_CANONICALS = {
 BASE_OVERRIDES = {
     "all purpose flour": "flour",
     "black pepper": "pepper",
+    "cube steaks": "beef",
+    "cube steak": "beef",
     "extra virgin olive oil": "oil",
     "green onions": "onion",
     "greek yogurt": "yogurt",
+    "greens": "greens",
+    "half half": "half and half",
     "heavy cream": "cream",
     "powdered sugar": "sugar",
     "tomato paste": "tomato",
@@ -150,6 +154,73 @@ SUBTYPE_PRIORITY = [
     "black",
     "green",
 ]
+
+# Trailing tokens that describe shape/form/cut, not the actual ingredient.
+# _extract_base skips these to reach the real food word.
+FORM_TAIL_WORDS = {
+    "ball", "balls",
+    "chunk", "chunks",
+    "chip", "chips",
+    "cube", "cubes",
+    "curl", "curls",
+    "cutlet", "cutlets",
+    "drop", "drops",
+    "dusting",
+    "fillet", "fillets", "filet", "filets",
+    "flake", "flakes",
+    "floret", "florets",
+    "half", "halves",
+    "head", "heads",
+    "leaf", "leaves",
+    "log", "logs",
+    "nugget", "nuggets",
+    "piece", "pieces",
+    "portion", "portions",
+    "quarter", "quarters",
+    "ring", "rings",
+    "round", "rounds",
+    "segment", "segments",
+    "serving", "servings",
+    "shaving", "shavings",
+    "sheet", "sheets",
+    "slab", "slabs",
+    "slice", "slices",
+    "sprig", "sprigs",
+    "stalk", "stalks",
+    "steak", "steaks",
+    "stick", "sticks",
+    "strip", "strips",
+    "wedge", "wedges",
+    "zest", "zests",
+}
+
+# Trailing tokens that are descriptors/adjectives, not food words.
+DESCRIPTOR_TAIL_WORDS = {
+    "bitter", "bitters",
+    "brown",
+    "canned",
+    "coarse",
+    "cold",
+    "cooked",
+    "dried",
+    "dry",
+    "frozen",
+    "green", "greens",
+    "hot",
+    "raw",
+    "red",
+    "salted",
+    "soft",
+    "sweet",
+    "thin",
+    "unsalted",
+    "warm",
+    "white", "whites",
+    "whole",
+    "yellow",
+    "black",
+    "inch",
+}
 
 
 @dataclass
@@ -359,7 +430,15 @@ def _extract_base(canonical: str) -> str:
     if not tokens:
         return ""
 
-    return _to_singular(tokens[-1])
+    # Walk backwards past trailing form/shape/descriptor words to find the
+    # actual food token.  E.g. "salmon fillets" -> "salmon",
+    # "parmesan cheese shavings" -> "cheese", "collard greens" -> "collard".
+    skip_words = FORM_TAIL_WORDS | DESCRIPTOR_TAIL_WORDS
+    idx = len(tokens) - 1
+    while idx > 0 and (tokens[idx] in skip_words or _to_singular(tokens[idx]) in skip_words):
+        idx -= 1
+
+    return _to_singular(tokens[idx])
 
 
 def _extract_subtype(canonical: str, descriptors: List[str]) -> Optional[str]:

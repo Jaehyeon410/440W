@@ -279,6 +279,19 @@ def load_recipes_from_json(file_path: Path) -> List[Dict]:
         if not ingredients_raw_clean:
             continue
 
+        # Build per-norm-ingredient importance weights from pre-computed scores.
+        raw_importance = row.get("ingredient_importance")
+        importance_norm: Dict[str, float] = {}
+        if isinstance(raw_importance, dict):
+            lower_scores = {k.lower(): v for k, v in raw_importance.items()}
+            for parsed, normed in zip(parsed_ingredients, ingredients_norm):
+                score = lower_scores.get(parsed.lower())
+                if score is not None:
+                    try:
+                        importance_norm[normed] = float(score)
+                    except (ValueError, TypeError):
+                        pass
+
         recipes.append(
             {
                 "id": build_recipe_id(title, ingredients_raw_clean),
@@ -287,6 +300,7 @@ def load_recipes_from_json(file_path: Path) -> List[Dict]:
                 "parsed_ingredients": parsed_ingredients,
                 "ingredients_raw_norm": ingredients_raw_norm,
                 "ingredients_norm": ingredients_norm,
+                "importance_norm": importance_norm,
                 "ingredients_v2": ingredients_v2,
                 "inferred_roles_v1": inferred_roles_v1,
                 "directions": directions_clean,

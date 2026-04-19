@@ -11,6 +11,7 @@ dist/
 build/
 *.so
 .Python
+*.whl
 
 # Virtual environments
 .venv/
@@ -24,7 +25,6 @@ ENV/
 .env
 .env.local
 .env.*.local
-*.env
 backend/.env
 app-react/.env
 
@@ -40,43 +40,32 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 .pnpm-debug.log*
+.eslintcache
 
 # ============================
-# Large Generated / Data Files
+# Large Data / Legacy Artifacts
 # ============================
 
-# Legacy index/cache artifacts (no longer used by current recommendation pipeline)
-backend/emb_cache.jsonl
-
-backend/index.faiss
-backend/index_meta.json
-
-backend/index_progress.json
-
-# Raw full recipe dataset (34MB - not needed at runtime; western_5000.json is used)
+# Raw full recipe dataset (34MB - not needed at runtime)
 data/full_format_recipes.json
 
-# Processed recipe dataset (12MB)
-# NOTE: This IS required at runtime. Commit it if your repo allows large files,
-# or instruct users to generate it via data/5000_recipes_western.py.
-# Uncomment the next line to exclude from git:
-# data/western_5000.json
+# Legacy index/cache artifacts (no longer used by recommendation pipeline)
+backend/emb_cache.jsonl
+backend/index.faiss
+backend/index_meta.json
+backend/index_progress.json
 
 # ============================
-# Generated Caches (auto-recreated)
+# Generated Caches (auto-recreated at runtime)
 # ============================
-backend/ingredient_roles.generated.json
 backend/ingredient_metadata.generated.json
+backend/ingredient_roles.generated.json
 backend/unknown_log.json
 
 # ============================
 # Editor / IDE
 # ============================
-# VS Code (keep .vscode/extensions.json if sharing extension recommendations)
-.vscode/settings.json
-.vscode/launch.json
-.vscode/*.code-snippets
-
+.vscode/
 .idea/
 *.swp
 *.swo

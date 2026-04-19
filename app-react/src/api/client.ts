@@ -95,11 +95,13 @@ export interface RecipeDetailResponse {
   missing_main: string[];
   missing_seasoning: string[];
   missing_other: string[];
+  ingredient_importance?: Record<string, number>;
 }
 
 export interface SubstitutionOption {
   to: string;
   reason: string;
+  confidence?: number;
 }
 
 export interface OtherSubstitutionOption {
@@ -132,6 +134,7 @@ export interface RemixResponse {
   substitutions: {
     main: Array<{ from: string; to: string; reason: string }>;
     seasoning: Array<{ from: string; to: string; reason: string }>;
+    other?: Array<{ from: string; to: string; reason: string }>;
   };
   flavor_change_summary: string;
   edited_steps: string[];
@@ -180,6 +183,7 @@ export function remixRecipe(payload: {
   user_ingredients: string[];
   selected_main_subs: Record<string, string>;
   selected_seasoning_subs: Record<string, string>;
+  selected_other_subs?: Record<string, string>;
   preferences: PreferencesPayload;
 }): Promise<RemixResponse> {
   return request<RemixResponse>("/api/remix", {

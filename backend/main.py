@@ -46,6 +46,10 @@ def _load_runtime_state() -> None:
     print(f"Recipes loaded: {len(RECIPES)}")
     print(f"Gemini text model: {get_text_model()}")
 
+    # Sync substitute pools from all known ingredient metadata.
+    from services.ingredient_metadata_service import sync_pools_from_all_metadata
+    sync_pools_from_all_metadata()
+
 
 def ensure_runtime_initialized() -> None:
     # Supports both normal startup and manual/lifespan-off uvicorn runs.
