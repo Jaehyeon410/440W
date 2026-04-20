@@ -97,7 +97,7 @@ cp .env.example .env
 Edit `backend/.env` and add your Gemini API key:
 
 ```env
-GEMINI_API_KEY=your_actual_key_here
+$env:GEMINI_API_KEY="your_actual_key_here"
 ```
 
 
