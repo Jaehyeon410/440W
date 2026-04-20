@@ -100,22 +100,8 @@ Edit `backend/.env` and add your Gemini API key:
 GEMINI_API_KEY=your_actual_key_here
 ```
 
-### 4. Prepare the recipe dataset
 
-The runtime dataset `data/western_5000.json` (~12 MB) **is included in this repository**.
-
-If it's missing (e.g., after a fresh clone with large-file exclusion), regenerate it:
-
-```bash
-# You'll need the source dataset first
-# Download full_format_recipes.json from https://www.kaggle.com/datasets/irkaal/foodcom-recipes-and-reviews
-# Place it at data/full_format_recipes.json, then run:
-
-cd data
-python 5000_recipes_western.py
-```
-
-### 5. Run the backend
+### 4. Run the backend
 
 ```bash
 cd backend
@@ -125,14 +111,14 @@ python -m uvicorn main:app --host 127.0.0.1 --port 8000 --reload
 The API will be available at: http://127.0.0.1:8000  
 Swagger docs: http://127.0.0.1:8000/docs
 
-### 6. Frontend setup
+### 5. Frontend setup
 
 ```bash
 cd app-react
 npm install
 ```
 
-### 7. Configure frontend environment
+### 6. Configure frontend environment
 
 ```bash
 cp .env.example .env
@@ -140,7 +126,7 @@ cp .env.example .env
 
 The default `.env` points to `http://127.0.0.1:8000` which works for local development.
 
-### 8. Run the frontend
+### 7. Run the frontend
 
 ```bash
 npm run dev
