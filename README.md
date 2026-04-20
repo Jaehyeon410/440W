@@ -67,7 +67,7 @@ Get a free Gemini API key at: https://aistudio.google.com/app/apikey
 
 ```bash
 git clone https://github.com/Jaehyeon410/fridge-remix.git
-cd fridge-remix
+cd 440W
 ```
 
 ### 2. Backend setup
